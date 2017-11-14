@@ -28,6 +28,10 @@ public class Menu extends AppCompatActivity
 
     public void startEventsActivity(View view)
     {
-        startActivity(new Intent(this, MyEvents.class));
+        Intent intent = new Intent(this, MyEvents.class);
+
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+
+        startActivity(intent);
     }
 }

@@ -10,7 +10,10 @@
     <string name="create_event_button">Créer l\'évènement</string>
     <string name="event_form_date_text_view">Date de l\'évènement</string>
     <string name="event_form_title_empty_message">Veuillez renseigner le nom de l\'évènement</string>
+    <string name="event_form_title_length_message">Nombre minimum de caractères pour le titre : </string>
     <string name="event_form_description_text_view">Description de l\'évènement</string>
     <string name="event_form_description_empty_message">Veuillez renseigner la description de l\'évènement</string>
+    <string name="event_form_description_length_message">Nombre minimum de caractères pour la description : </string>
     <string name="event_form_cycle_text">Répétition</string>
+    <string name="home_page_welcome_message">Bonjour</string>
 </resources>

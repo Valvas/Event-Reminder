@@ -16,11 +16,19 @@ public class MyEvents extends AppCompatActivity
 
     public void openMenu(View view)
     {
-        startActivity(new Intent(this, Menu.class));
+        Intent intent = new Intent(this, Menu.class);
+
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+
+        startActivity(intent);
     }
 
     public void createNewEvent(View view)
     {
-        startActivity(new Intent(this, NewEventForm.class));
+        Intent intent = new Intent(this, NewEventForm.class);
+
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+
+        startActivity(intent);
     }
 }

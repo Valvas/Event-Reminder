@@ -3,13 +3,15 @@ package fr.hexus.aprivate.mondayreminder;
 public class Event
 {
     private long eventCycle;
+    private String eventDate;
     private String eventName;
     private boolean isPonctual;
     private Account eventCreator;
     private String eventDescription;
 
-    public Event(String name, Account creator, String description, long cycle, boolean ponctual)
+    public Event(String name, Account creator, String description, String date, long cycle, boolean ponctual)
     {
+        this.eventDate = date;
         this.eventName = name;
         this.eventCycle = cycle;
         this.isPonctual = ponctual;
@@ -21,6 +23,8 @@ public class Event
     {
         return "\nEvent name : "
                 + this.eventName
+                + "\nDate : "
+                + this.eventDate
                 + "\nPonctual : "
                 + this.isPonctual
                 + "\nEvent cycle : "

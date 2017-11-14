@@ -1,6 +1,8 @@
 package fr.hexus.aprivate.mondayreminder;
 
-public class Account
+import java.io.Serializable;
+
+public class Account implements Serializable
 {
     private String accountLastname;
     private String accountFirstname;
@@ -24,4 +26,9 @@ public class Account
     }
 
     public String getAccountIdentifier() { return this.accountIdentifier; }
+
+    public String toString()
+    {
+        return "lastname : " + this.accountLastname + "\n" + "firstname : " + this.accountFirstname;
+    }
 }

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class HomePage extends AppCompatActivity
 {
@@ -13,10 +13,20 @@ public class HomePage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        Account account = (Account) getIntent().getSerializableExtra(Constants.ACCOUNT);
+
+        TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
+
+        welcomeMessage.setText(welcomeMessage.getText() + " " + account.getAccountFirstname());
     }
 
     public void openMenu(View view)
     {
-        startActivity(new Intent(this, Menu.class));
+        Intent intent = new Intent(this, Menu.class);
+
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+
+        startActivity(intent);
     }
 }
