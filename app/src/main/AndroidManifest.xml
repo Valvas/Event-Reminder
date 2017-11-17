@@ -19,7 +19,8 @@
         <activity android:name=".HomePage" />
         <activity android:name=".Menu" />
         <activity android:name=".MyEvents" />
-        <activity android:name=".NewEventForm"></activity>
+        <activity android:name=".NewEventForm" />
+        <activity android:name=".EventView"></activity>
     </application>
 
 </manifest>
