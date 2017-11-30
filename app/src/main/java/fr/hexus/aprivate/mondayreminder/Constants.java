@@ -20,6 +20,10 @@ public class Constants
     public static final int PARTICIPATING_YES = 2;
     public static final int PARTICIPATING_WAIT = 0;
 
+    public static final String PARTICIPATING_NO_TEXT = "NON";
+    public static final String PARTICIPATING_YES_TEXT = "OUI";
+    public static final String PARTICIPATING_WAIT_TEXT = "EN ATTENTE";
+
     public static final String JANUARY = "Janvier";
     public static final String FEBRUARY = "Février";
     public static final String MARCH = "Mars";
@@ -32,4 +36,10 @@ public class Constants
     public static final String OCTOBER = "Octobre";
     public static final String NOVEMBER = "Novembre";
     public static final String DECEMBER = "Décembre";
+
+    public static final String PARTICIPANTS_VIEW_EVENT_NAME = "Participants pour";
+
+    public static final String ERROR_UPDATING_PARTICIPATION_STATUS = "Erreur : le changement de statut n'a pas été appliqué";
+
+    public static final String SUCCESS_UPDATING_PARTICIPATION_STATUS = "Votre statut a été mis à jour";
 }

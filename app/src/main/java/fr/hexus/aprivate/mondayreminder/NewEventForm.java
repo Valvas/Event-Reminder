@@ -16,9 +16,9 @@ public class NewEventForm extends AppCompatActivity
         setContentView(R.layout.activity_new_event_form);
     }
 
-    public void openMenu(View view)
+    public void backToEventList(View view)
     {
-        startActivity(new Intent(this, Menu.class));
+        finish();
     }
 
     public void createNewEvent(View view)

@@ -12,4 +12,22 @@ public class Participation
         this.participatingStatus = status;
         this.participatingAccount = account;
     }
+
+    public String toString()
+    {
+        return this.participatedEvent.getEventName() +
+                "\n" +
+                this.participatingAccount.getAccountFirstname() +
+                " " +
+                this.participatingAccount.getAccountLastname();
+    }
+
+    public String getParticipantName()
+    {
+        return this.participatingAccount.getAccountFirstname() +
+                " " +
+                this.participatingAccount.getAccountLastname();
+    }
+
+    public int getParticipationStatus(){ return this.participatingStatus; }
 }

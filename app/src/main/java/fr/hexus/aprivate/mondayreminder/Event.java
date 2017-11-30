@@ -21,6 +21,8 @@ public class Event implements Serializable
         this.eventDescription = description;
     }
 
+    public Account getLinkedAccount(){ return this.eventCreator; }
+
     public String getEventName(){ return this.eventName; }
     public String getEventDescription(){ return this.eventDescription; }
     public String getEventCreator(){ return this.eventCreator.getAccountFirstname() + " " + this.eventCreator.getAccountLastname(); }

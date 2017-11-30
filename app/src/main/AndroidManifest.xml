@@ -20,7 +20,8 @@
         <activity android:name=".Menu" />
         <activity android:name=".MyEvents" />
         <activity android:name=".NewEventForm" />
-        <activity android:name=".EventView"></activity>
+        <activity android:name=".EventView" />
+        <activity android:name=".ParticipantsView"></activity>
     </application>
 
 </manifest>

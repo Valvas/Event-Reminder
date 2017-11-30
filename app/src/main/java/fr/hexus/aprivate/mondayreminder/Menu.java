@@ -34,4 +34,13 @@ public class Menu extends AppCompatActivity
 
         startActivity(intent);
     }
+
+    public void startHomeActivity(View view)
+    {
+        Intent intent = new Intent(this, HomePage.class);
+
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+
+        startActivity(intent);
+    }
 }

@@ -50,6 +50,7 @@ public class MyEvents extends ListActivity
 
         Intent intent = new Intent(this, EventView.class);
 
+        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
         intent.putExtra(Constants.EVENT, clicked);
 
         startActivity(intent);

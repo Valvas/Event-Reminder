@@ -15,6 +15,11 @@ public class Account implements Serializable
         this.accountIdentifier = identifier;
     }
 
+    public boolean equals(Account account)
+    {
+        return this.accountIdentifier.equals(account.getAccountIdentifier());
+    }
+
     public String getAccountLastname()
     {
         return this.accountLastname;
