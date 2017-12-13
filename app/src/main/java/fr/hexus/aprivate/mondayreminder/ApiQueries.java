@@ -5,14 +5,16 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class ApiQueries
 {
     private String apiAddress;
-    private String apiPort;
+    private int apiPort;
 
-    public ApiQueries(String address, String port)
+    public ApiQueries(String address, int port)
     {
         this.apiAddress = address;
         this.apiPort = port;
@@ -49,8 +51,8 @@ public class ApiQueries
         Account account1 = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com");
         Account account2 = new Account("Cornu", "Nicolas", "nicolas.cornu@gmail.com");
 
-        Participation participation1 = new Participation(account1, event, 0);
-        Participation participation2 = new Participation(account2, event, 2);
+        Participation participation1 = new Participation(account1, event, ParticipatingStatus.WAIT);
+        Participation participation2 = new Participation(account2, event, ParticipatingStatus.YES);
 
         List<Participation> participantsList = new ArrayList<>();
 

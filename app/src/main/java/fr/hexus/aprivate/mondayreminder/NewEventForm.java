@@ -35,45 +35,45 @@ public class NewEventForm extends AppCompatActivity
 
         boolean check = true;
 
-        if(Constants.EVENT_TITLE_REQUIRED && title.length() == 0)
+        if(getResources().getBoolean(R.bool.EVENT_TIME_REQUIRED) && title.length() == 0)
         {
             Toast.makeText(this, R.string.event_form_title_empty_message, Toast.LENGTH_SHORT).show();
             check = false;
         }
 
-        else if(Constants.EVENT_TITLE_REQUIRED && title.length() < Constants.EVENT_TITLE_LENGTH)
+        else if(getResources().getBoolean(R.bool.EVENT_TIME_REQUIRED) && title.length() < getResources().getInteger(R.integer.EVENT_TITLE_LENGTH))
         {
-            Toast.makeText(this, getString(R.string.event_form_title_length_message) + Constants.EVENT_TITLE_LENGTH, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.event_form_title_length_message) + getResources().getInteger(R.integer.EVENT_TITLE_LENGTH), Toast.LENGTH_SHORT).show();
             check = false;
         }
 
-        else if(Constants.EVENT_TITLE_REQUIRED == false && title.length() > 0 && title.length() < Constants.EVENT_TITLE_LENGTH)
+        else if(getResources().getBoolean(R.bool.EVENT_TIME_REQUIRED) == false && title.length() > 0 && title.length() < getResources().getInteger(R.integer.EVENT_TITLE_LENGTH))
         {
-            Toast.makeText(this, getString(R.string.event_form_title_length_message) + Constants.EVENT_TITLE_LENGTH, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.event_form_title_length_message) + getResources().getInteger(R.integer.EVENT_TITLE_LENGTH), Toast.LENGTH_SHORT).show();
             check = false;
         }
 
-        if(Constants.EVENT_DESCRIPTION_REQUIRED && description.length() == 0)
+        if(getResources().getBoolean(R.bool.EVENT_DESCRIPTION_REQUIRED) && description.length() == 0)
         {
             Toast.makeText(this, R.string.event_form_description_empty_message, Toast.LENGTH_SHORT).show();
             check = false;
         }
 
-        else if(Constants.EVENT_DESCRIPTION_REQUIRED && description.length() < Constants.EVENT_DESCRIPTION_LENGTH)
+        else if(getResources().getBoolean(R.bool.EVENT_DESCRIPTION_REQUIRED) && description.length() < getResources().getInteger(R.integer.EVENT_DESCRIPTION_LENGTH))
         {
-            Toast.makeText(this, getString(R.string.event_form_description_length_message) + Constants.EVENT_DESCRIPTION_LENGTH, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.event_form_description_length_message) + getResources().getInteger(R.integer.EVENT_DESCRIPTION_LENGTH), Toast.LENGTH_SHORT).show();
             check = false;
         }
 
-        else if(Constants.EVENT_DESCRIPTION_REQUIRED == false && description.length() > 0 && description.length() < Constants.EVENT_DESCRIPTION_LENGTH)
+        else if(getResources().getBoolean(R.bool.EVENT_DESCRIPTION_REQUIRED) == false && description.length() > 0 && description.length() < getResources().getInteger(R.integer.EVENT_DESCRIPTION_LENGTH))
         {
-            Toast.makeText(this, getString(R.string.event_form_description_length_message) + Constants.EVENT_DESCRIPTION_LENGTH, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.event_form_description_length_message) + getResources().getInteger(R.integer.EVENT_DESCRIPTION_LENGTH), Toast.LENGTH_SHORT).show();
             check = false;
         }
 
         if(check)
         {
-            Account account = (Account) getIntent().getSerializableExtra(Constants.ACCOUNT);
+            Account account = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
 
             Event event = new Event(title, account, description, "2017-11-15 09:00:00", 0, true);
 

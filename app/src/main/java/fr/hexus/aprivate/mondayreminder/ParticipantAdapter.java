@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 
+import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+
 public class ParticipantAdapter extends ArrayAdapter<Participation>
 {
     public ParticipantAdapter(@NonNull Context context, @NonNull List<Participation> participants)
@@ -31,18 +33,18 @@ public class ParticipantAdapter extends ArrayAdapter<Participation>
 
         participantName.setText(currentParticipant.getParticipantName());
 
-        int status = currentParticipant.getParticipationStatus();
+        ParticipatingStatus status = currentParticipant.getParticipationStatus();
 
         switch(status)
         {
-            case Constants.PARTICIPATING_NO:
-                participationStatus.setText(Constants.PARTICIPATING_NO_TEXT);
+            case NO:
+                participationStatus.setText(getContext().getText(R.string.PARTICIPATING_NO_TEXT));
                 break;
-            case Constants.PARTICIPATING_WAIT:
-                participationStatus.setText(Constants.PARTICIPATING_WAIT_TEXT);
+            case WAIT:
+                participationStatus.setText(getContext().getText(R.string.PARTICIPATING_WAIT_TEXT));
                 break;
-            case Constants.PARTICIPATING_YES:
-                participationStatus.setText(Constants.PARTICIPATING_YES_TEXT);
+            case YES:
+                participationStatus.setText(getContext().getText(R.string.PARTICIPATING_YES_TEXT));
                 break;
         }
 

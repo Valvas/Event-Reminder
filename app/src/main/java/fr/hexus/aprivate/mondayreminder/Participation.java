@@ -1,12 +1,14 @@
 package fr.hexus.aprivate.mondayreminder;
 
+import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+
 public class Participation
 {
-    private int participatingStatus;
+    private ParticipatingStatus participatingStatus;
     private Event participatedEvent;
     private Account participatingAccount;
 
-    public Participation(Account account, Event event, int status)
+    public Participation(Account account, Event event, ParticipatingStatus status)
     {
         this.participatedEvent = event;
         this.participatingStatus = status;
@@ -29,5 +31,5 @@ public class Participation
                 this.participatingAccount.getAccountLastname();
     }
 
-    public int getParticipationStatus(){ return this.participatingStatus; }
+    public ParticipatingStatus getParticipationStatus(){ return this.participatingStatus; }
 }

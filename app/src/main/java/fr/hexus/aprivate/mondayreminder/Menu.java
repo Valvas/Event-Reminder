@@ -30,7 +30,7 @@ public class Menu extends AppCompatActivity
     {
         Intent intent = new Intent(this, MyEvents.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -39,7 +39,7 @@ public class Menu extends AppCompatActivity
     {
         Intent intent = new Intent(this, HomePage.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }

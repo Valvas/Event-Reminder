@@ -2,6 +2,8 @@ package fr.hexus.aprivate.mondayreminder;
 
 import java.io.Serializable;
 
+import fr.hexus.aprivate.mondayreminder.Enums.Months;
+
 public class Event implements Serializable
 {
     private long eventCycle;
@@ -41,18 +43,18 @@ public class Event implements Serializable
     {
         switch(month)
         {
-            case 1: return Constants.JANUARY;
-            case 2: return Constants.FEBRUARY;
-            case 3: return Constants.MARCH;
-            case 4: return Constants.APRIL;
-            case 5: return Constants.MAY;
-            case 6: return Constants.JUNE;
-            case 7: return Constants.JULY;
-            case 8: return Constants.AUGUST;
-            case 9: return Constants.SEPTEMBER;
-            case 10: return Constants.OCTOBER;
-            case 11: return Constants.NOVEMBER;
-            case 12: return Constants.DECEMBER;
+            case 1: return Months.Janvier.toString();
+            case 2: return Months.Février.toString();
+            case 3: return Months.Mars.toString();
+            case 4: return Months.Avril.toString();
+            case 5: return Months.Mai.toString();
+            case 6: return Months.Juin.toString();
+            case 7: return Months.Juillet.toString();
+            case 8: return Months.Août.toString();
+            case 9: return Months.Septembre.toString();
+            case 10: return Months.Octobre.toString();
+            case 11: return Months.Novembre.toString();
+            case 12: return Months.Décembre.toString();
             default: return "???";
         }
     }

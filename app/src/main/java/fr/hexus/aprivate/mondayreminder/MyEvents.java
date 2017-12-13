@@ -18,7 +18,7 @@ public class MyEvents extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        List<Event> eventList = new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT).getMyEvents((Account) getIntent().getSerializableExtra(Constants.ACCOUNT));
+        List<Event> eventList = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getMyEvents((Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         EventAdapter eventAdapter = new EventAdapter(this, eventList);
         setListAdapter(eventAdapter);
@@ -28,7 +28,7 @@ public class MyEvents extends ListActivity
     {
         Intent intent = new Intent(this, Menu.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -37,7 +37,7 @@ public class MyEvents extends ListActivity
     {
         Intent intent = new Intent(this, NewEventForm.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -50,8 +50,8 @@ public class MyEvents extends ListActivity
 
         Intent intent = new Intent(this, EventView.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
-        intent.putExtra(Constants.EVENT, clicked);
+        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getString(R.string.EVENT), clicked);
 
         startActivity(intent);
     }

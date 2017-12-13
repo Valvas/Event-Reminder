@@ -17,7 +17,7 @@ public class HomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        Account account = (Account) getIntent().getSerializableExtra(Constants.ACCOUNT);
+        Account account = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
 
         TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
 
@@ -28,7 +28,7 @@ public class HomePage extends AppCompatActivity
     {
         Intent intent = new Intent(this, Menu.class);
 
-        intent.putExtra(Constants.ACCOUNT, getIntent().getSerializableExtra(Constants.ACCOUNT));
+        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }

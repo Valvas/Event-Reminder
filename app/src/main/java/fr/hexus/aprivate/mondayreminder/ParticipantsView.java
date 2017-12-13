@@ -18,13 +18,13 @@ public class ParticipantsView extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participants_view);
 
-        Event event = (Event) getIntent().getSerializableExtra(Constants.EVENT);
+        Event event = (Event) getIntent().getSerializableExtra(getString(R.string.EVENT));
 
         TextView eventName = (TextView) findViewById(R.id.eventName);
 
-        eventName.setText(Constants.PARTICIPANTS_VIEW_EVENT_NAME + " : " + event.getEventName());
+        eventName.setText(getText(R.string.participants_view_event_name) + " : " + event.getEventName());
 
-        List<Participation> participantsList = new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT).getParticipantsToEvent(event);
+        List<Participation> participantsList = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipantsToEvent(event);
 
         ParticipantAdapter participantAdapter = new ParticipantAdapter(this, participantsList);
         setListAdapter(participantAdapter);

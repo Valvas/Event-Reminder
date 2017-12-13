@@ -20,4 +20,10 @@
     <string name="event_view_participating_no_button">Je ne participe pas</string>
     <string name="event_view_participating_yes_button">Je participe</string>
     <string name="event_view_participating_wait_button">Peut-être</string>
+    <string name="participants_view_event_name">Participants pour</string>
+    <string name="error_updating_participation_status">Erreur : le changement de statut n\'a pas été appliqué</string>
+    <string name="success_updating_participation_status">Votre statut a été mis à jour</string>
+    <string name="PARTICIPATING_NO_TEXT">Non</string>
+    <string name="PARTICIPATING_YES_TEXT">Oui</string>
+    <string name="PARTICIPATING_WAIT_TEXT">En attente</string>
 </resources>

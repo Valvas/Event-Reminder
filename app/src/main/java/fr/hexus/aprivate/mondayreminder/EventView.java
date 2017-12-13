@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+
 public class EventView extends AppCompatActivity
 {
     @Override
@@ -17,8 +19,8 @@ public class EventView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_view);
 
-        Event event = (Event) getIntent().getSerializableExtra(Constants.EVENT);
-        Account account = (Account) getIntent().getSerializableExtra(Constants.ACCOUNT);
+        Event event = (Event) getIntent().getSerializableExtra(getString(R.string.EVENT));
+        Account account = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
 
         if(account.equals(event.getLinkedAccount()))
         {
@@ -29,7 +31,7 @@ public class EventView extends AppCompatActivity
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
         {
-            switch(new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT).getParticipationStatusToEvent(event, account))
+            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, account))
             {
                 case 0:
                     participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FFFF00'>En attente</font>", Html.FROM_HTML_MODE_LEGACY));
@@ -45,7 +47,7 @@ public class EventView extends AppCompatActivity
 
         else
         {
-            switch(new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT).getParticipationStatusToEvent(event, account))
+            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, account))
             {
                 case 0:
                     participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#888800'>En attente</font>"));
@@ -84,16 +86,16 @@ public class EventView extends AppCompatActivity
     {
         Intent intent = new Intent(this, ParticipantsView.class);
 
-        intent.putExtra(Constants.EVENT, getIntent().getSerializableExtra(Constants.EVENT));
+        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
 
     public void clickOnParticipatingYes(View view)
     {
-        ApiQueries apiQueries = new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT);
+        ApiQueries apiQueries = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT));
 
-        if(apiQueries.changeAccountParticipationStatusToEvent((Event) getIntent().getSerializableExtra(Constants.EVENT), (Account) getIntent().getSerializableExtra(Constants.ACCOUNT), Constants.PARTICIPATING_YES))
+        if(apiQueries.changeAccountParticipationStatusToEvent((Event) getIntent().getSerializableExtra(getString(R.string.EVENT)), (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT)), ParticipatingStatus.YES.getValue()))
         {
             TextView participationStatus = (TextView) findViewById(R.id.participationStatus);
 
@@ -107,20 +109,20 @@ public class EventView extends AppCompatActivity
                 participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#77B5FE'>Oui</font>"));
             }
 
-            Toast.makeText(this, Constants.SUCCESS_UPDATING_PARTICIPATION_STATUS, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.success_updating_participation_status), Toast.LENGTH_SHORT).show();
         }
 
         else
         {
-            Toast.makeText(this, Constants.ERROR_UPDATING_PARTICIPATION_STATUS, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.error_updating_participation_status), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void clickOnParticipatingNo(View view)
     {
-        ApiQueries apiQueries = new ApiQueries(Constants.API_ADDRESS, Constants.API_PORT);
+        ApiQueries apiQueries = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT));
 
-        if(apiQueries.changeAccountParticipationStatusToEvent((Event) getIntent().getSerializableExtra(Constants.EVENT), (Account) getIntent().getSerializableExtra(Constants.ACCOUNT), Constants.PARTICIPATING_NO))
+        if(apiQueries.changeAccountParticipationStatusToEvent((Event) getIntent().getSerializableExtra(getString(R.string.EVENT)), (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT)), ParticipatingStatus.NO.getValue()))
         {
             TextView participationStatus = (TextView) findViewById(R.id.participationStatus);
 
@@ -134,12 +136,12 @@ public class EventView extends AppCompatActivity
                 participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FF0921'>Non</font>"));
             }
 
-            Toast.makeText(this, Constants.SUCCESS_UPDATING_PARTICIPATION_STATUS, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.success_updating_participation_status), Toast.LENGTH_SHORT).show();
         }
 
         else
         {
-            Toast.makeText(this, Constants.ERROR_UPDATING_PARTICIPATION_STATUS, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.error_updating_participation_status), Toast.LENGTH_SHORT).show();
         }
     }
 }

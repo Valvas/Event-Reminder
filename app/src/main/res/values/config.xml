@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="API_ADDRESS">127.0.0.1</string>
+    <integer name="API_PORT">3000</integer>
+
+    <bool name="EVENT_DATE_REQUIRED">true</bool>
+    <bool name="EVENT_TIME_REQUIRED">true</bool>
+    <bool name="EVENT_TITLE_REQUIRED">true</bool>
+    <bool name="EVENT_DESCRIPTION_REQUIRED">false</bool>
+
+    <integer name="EVENT_TITLE_LENGTH">4</integer>
+    <integer name="EVENT_DESCRIPTION_LENGTH">8</integer>
+
+    <string name="ACCOUNT">ACCOUNT</string>
+    <string name="EVENT">EVENT</string>
+</resources>
