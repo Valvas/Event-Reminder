@@ -26,4 +26,9 @@
     <string name="PARTICIPATING_NO_TEXT">Non</string>
     <string name="PARTICIPATING_YES_TEXT">Oui</string>
     <string name="PARTICIPATING_WAIT_TEXT">En attente</string>
+    <string name="add_friend_label">Ajouter un ami :</string>
+    <string name="add_friend_input">Adresse email</string>
+    <string name="add_friend_button">Ajouter</string>
+    <string name="invitation_list_label">Liste des invitations :</string>
+    <string name="open_friend_list_button">Liste de mes amis</string>
 </resources>

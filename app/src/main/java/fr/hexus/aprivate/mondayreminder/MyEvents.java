@@ -28,7 +28,7 @@ public class MyEvents extends ListActivity
     {
         Intent intent = new Intent(this, Menu.class);
 
-        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -37,7 +37,7 @@ public class MyEvents extends ListActivity
     {
         Intent intent = new Intent(this, NewEventForm.class);
 
-        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -50,8 +50,8 @@ public class MyEvents extends ListActivity
 
         Intent intent = new Intent(this, EventView.class);
 
-        intent.putExtra(getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
-        intent.putExtra(getString(R.string.EVENT), clicked);
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.EVENT), clicked);
 
         startActivity(intent);
     }

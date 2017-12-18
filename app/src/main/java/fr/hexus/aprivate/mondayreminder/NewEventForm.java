@@ -73,7 +73,7 @@ public class NewEventForm extends AppCompatActivity
 
         if(check)
         {
-            Account account = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
+            Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
 
             Event event = new Event(title, account, description, "2017-11-15 09:00:00", 0, true);
 

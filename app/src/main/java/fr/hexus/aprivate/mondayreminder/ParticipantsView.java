@@ -18,7 +18,7 @@ public class ParticipantsView extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participants_view);
 
-        Event event = (Event) getIntent().getSerializableExtra(getString(R.string.EVENT));
+        Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
 
         TextView eventName = (TextView) findViewById(R.id.eventName);
 

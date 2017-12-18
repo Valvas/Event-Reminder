@@ -21,7 +21,8 @@
         <activity android:name=".MyEvents" />
         <activity android:name=".NewEventForm" />
         <activity android:name=".EventView" />
-        <activity android:name=".ParticipantsView"></activity>
+        <activity android:name=".ParticipantsView" />
+        <activity android:name=".FriendsHome"></activity>
     </application>
 
 </manifest>

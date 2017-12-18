@@ -22,7 +22,7 @@ public class LogonPage extends AppCompatActivity
 
         Account test = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com");
 
-        intent.putExtra(getString(R.string.ACCOUNT), test);
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), test);
 
         startActivity(intent);
     }

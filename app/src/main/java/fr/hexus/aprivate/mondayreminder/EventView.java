@@ -19,8 +19,8 @@ public class EventView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_view);
 
-        Event event = (Event) getIntent().getSerializableExtra(getString(R.string.EVENT));
-        Account account = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
+        Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
+        Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
 
         if(account.equals(event.getLinkedAccount()))
         {
@@ -86,7 +86,9 @@ public class EventView extends AppCompatActivity
     {
         Intent intent = new Intent(this, ParticipantsView.class);
 
-        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
+
+        intent.putExtra(getResources().getString(R.string.EVENT), getIntent().getSerializableExtra(getResources().getString(R.string.EVENT)));
 
         startActivity(intent);
     }

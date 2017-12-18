@@ -30,7 +30,16 @@ public class Menu extends AppCompatActivity
     {
         Intent intent = new Intent(this, MyEvents.class);
 
-        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
+
+        startActivity(intent);
+    }
+
+    public void startFriendsActivity(View view)
+    {
+        Intent intent = new Intent(this, FriendsHome.class);
+
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
@@ -39,7 +48,7 @@ public class Menu extends AppCompatActivity
     {
         Intent intent = new Intent(this, HomePage.class);
 
-        intent.putExtra(getString(R.string.EVENT), getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }

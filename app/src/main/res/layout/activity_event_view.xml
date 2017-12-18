@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/eventName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/participationStatus"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -151,7 +151,7 @@
         <Button
             android:id="@+id/participatingYesButton"
             android:layout_width="160dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -169,7 +169,7 @@
         <Button
             android:id="@+id/participatingNoButton"
             android:layout_width="160dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -186,7 +186,7 @@
 
         <Button
             android:id="@+id/openParticipantsMenu"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"

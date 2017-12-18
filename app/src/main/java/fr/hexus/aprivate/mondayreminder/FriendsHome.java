@@ -1,27 +1,17 @@
 package fr.hexus.aprivate.mondayreminder;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-public class HomePage extends AppCompatActivity
+public class FriendsHome extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
-
-        Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
-
-        TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
-
-        welcomeMessage.setText(welcomeMessage.getText() + " " + account.getAccountFirstname());
+        setContentView(R.layout.activity_friends_home);
     }
 
     public void openMenu(View view)

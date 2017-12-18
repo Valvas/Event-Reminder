@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.hexus.aprivate.mondayreminder.FriendsHome">
+
+    <Button
+        android:id="@+id/openMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="openMenu"
+        android:text="Menu"
+        app:layout_constraintBottom_toTopOf="@+id/addFriendLabel"
+        app:layout_constraintHorizontal_bias="0.971"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/addFriendLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/add_friend_label"
+        android:textColor="#223344"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/addFriendInput"
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openMenu" />
+
+    <EditText
+        android:id="@+id/addFriendInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/add_friend_input"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/invitationListLabel"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/addFriendButton"
+        app:layout_constraintTop_toBottomOf="@+id/addFriendLabel" />
+
+    <Button
+        android:id="@+id/addFriendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/add_friend_button"
+        app:layout_constraintBottom_toTopOf="@+id/invitationListLabel"
+        app:layout_constraintLeft_toRightOf="@+id/addFriendInput"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addFriendLabel" />
+
+    <TextView
+        android:id="@+id/invitationListLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/invitation_list_label"
+        android:textColor="#223344"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/invitationList"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addFriendInput"
+        app:layout_constraintVertical_bias="0.852" />
+
+    <ListView
+        android:id="@+id/invitationList"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/openFriendsList"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/invitationListLabel"
+        app:layout_constraintVertical_bias="0.507" />
+
+    <Button
+        android:id="@+id/openFriendsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_friend_list_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/invitationList" />
+
+</android.support.constraint.ConstraintLayout>
