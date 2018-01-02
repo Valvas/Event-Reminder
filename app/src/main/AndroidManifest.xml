@@ -25,4 +25,6 @@
         <activity android:name=".FriendsHome"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>
