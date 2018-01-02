@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="API_ADDRESS">http://192.168.1.10</string>
+    <string name="API_ADDRESS">127.0.0.1</string>
     <integer name="API_PORT">3000</integer>
 
     <bool name="EVENT_DATE_REQUIRED">true</bool>

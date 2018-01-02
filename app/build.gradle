@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "fr.hexus.aprivate.mondayreminder"
         minSdkVersion 16
@@ -28,9 +27,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.http-client:google-http-client-android:+'
-    compile 'com.google.api-client:google-api-client-android:+'
-    compile 'com.google.api-client:google-api-client-gson:+'
-    compile 'com.android.volley:volley:1.1.0'
     testCompile 'junit:junit:4.12'
 }
