@@ -67,7 +67,7 @@ abstract public class APIRequester {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("API", error.getMessage());
+                        callback.onErrorResponse(error);
                     }
                 }
             );

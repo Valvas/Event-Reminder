@@ -1,6 +1,8 @@
 package fr.hexus.aprivate.mondayreminder.API;
 
 
+import com.android.volley.VolleyError;
+
 import org.json.JSONObject;
 
 /**
@@ -8,10 +10,11 @@ import org.json.JSONObject;
  */
 
 public interface APICallback {
+    // Handling the response from web server
     void onSuccessResponse(JSONObject result);
 
-    //void onErrorResponse(VolleyError error);
     // Handling of error request and action on the activity
+    void onErrorResponse(VolleyError error);
 
     // Can have more stuffs in the future
 }

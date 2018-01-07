@@ -1,6 +1,7 @@
 package fr.hexus.aprivate.mondayreminder;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import fr.hexus.aprivate.mondayreminder.Enums.Months;
 
@@ -59,6 +60,7 @@ public class Event implements Serializable
         }
     }
 
+    @Override
     public String toString()
     {
         return "\nEvent name : "
@@ -101,13 +103,53 @@ public class Event implements Serializable
         return years + " year(s) " + months + " month(s) " + days + " day(s) " + hours + " hour(s) " + minutesTotalAmount + " minute(s)";
     }
 
+    public HashMap<String, Long> getDetailsEventCycle(){
+        HashMap<String, Long> ret = new HashMap<>();
+
+        Long minutesTotalAmount = this.eventCycle;
+        Long years = minutesTotalAmount / 525600;
+        ///
+        ret.put("years", years);
+        ///
+        minutesTotalAmount -= years * 525600;
+        Long months = minutesTotalAmount / 43200;
+        ///
+        ret.put("month", months);
+        ///
+        minutesTotalAmount -= months * 43200;
+        Long days = minutesTotalAmount / 1440;
+        ///
+        ret.put("days", days);
+        ///
+        minutesTotalAmount -= days * 1440;
+        Long hours = minutesTotalAmount / 60;
+        ///
+        ret.put("hours", hours);
+        ///
+        minutesTotalAmount -= hours * 60;
+        ///
+        ret.put("minutes", minutesTotalAmount);
+
+        return ret;
+    }
+
     public String getEventCycle()
     {
-        if(this.isPonctual){ return "Répétitif : Non"; }
+        if(!this.isPonctual){ return "Répétitif : Non"; }
 
         else
         {
             return "Répétition : " + toStringEventCycle();
+        }
+    }
+
+    public Boolean getEventCycleBoolean()
+    {
+        if(!this.isPonctual){ return false; }
+
+        else
+        {
+            return true;
         }
     }
 }
