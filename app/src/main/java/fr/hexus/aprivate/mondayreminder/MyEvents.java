@@ -18,7 +18,12 @@ public class MyEvents extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        List<Event> eventList = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getMyEvents((Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT)));
+        String apiAddress = getString(R.string.API_ADDRESS);
+        int apiPort = getResources().getInteger(R.integer.API_PORT);
+
+        Account currentAccount = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
+
+        List<Event> eventList = new ApiQueries(apiAddress, apiPort).getMyEvents(currentAccount);
 
         EventAdapter eventAdapter = new EventAdapter(this, eventList);
         setListAdapter(eventAdapter);

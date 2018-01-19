@@ -1,6 +1,11 @@
 package fr.hexus.aprivate.mondayreminder;
 
+import org.joda.time.Period;
+import org.joda.time.Seconds;
+import org.joda.time.format.PeriodFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 
 import fr.hexus.aprivate.mondayreminder.Enums.Months;
@@ -38,6 +43,10 @@ public class Event implements Serializable
                 getTextMonthFromItsNumber(Integer.parseInt(this.eventDate.substring(5, 7))) +
                 " " +
                 this.eventDate.substring(0, 4);
+    }
+
+    public String getRawEventDate(){
+        return eventDate;
     }
 
     public String getTextMonthFromItsNumber(int month)
@@ -82,7 +91,7 @@ public class Event implements Serializable
 
     public String toStringEventCycle()
     {
-        long minutesTotalAmount = this.eventCycle;
+        /*long minutesTotalAmount = this.eventCycle;
 
         long years = minutesTotalAmount / 525600;
 
@@ -98,9 +107,17 @@ public class Event implements Serializable
 
         long hours = minutesTotalAmount / 60;
 
-        minutesTotalAmount -= hours * 60;
+        minutesTotalAmount -= hours * 60;*/
 
-        return years + " year(s) " + months + " month(s) " + days + " day(s) " + hours + " hour(s) " + minutesTotalAmount + " minute(s)";
+        Seconds s1 = Seconds.seconds((int) this.eventCycle);
+        Period p1 = new Period(s1);
+        int years = p1.normalizedStandard().getYears();
+        int months = p1.normalizedStandard().getMonths();
+        int days = p1.normalizedStandard().getDays();
+        int hours = p1.normalizedStandard().getHours();
+        int minutes = p1.normalizedStandard().getMinutes();
+
+        return years + " year(s) " + months + " month(s) " + days + " day(s) " + hours + " hour(s) " + minutes + " minute(s)";
     }
 
     public HashMap<String, Long> getDetailsEventCycle(){
@@ -114,7 +131,7 @@ public class Event implements Serializable
         minutesTotalAmount -= years * 525600;
         Long months = minutesTotalAmount / 43200;
         ///
-        ret.put("month", months);
+        ret.put("months", months);
         ///
         minutesTotalAmount -= months * 43200;
         Long days = minutesTotalAmount / 1440;
