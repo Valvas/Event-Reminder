@@ -1,42 +1,36 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Switch;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
+
+import com.google.common.primitives.Ints;
 
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIEvents;
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
+import fr.hexus.aprivate.mondayreminder.R;
 
-public class NewEventForm extends AppCompatActivity
+public class EventForm extends AppCompatActivity
 {
     private Calendar eventPlanning = Calendar.getInstance();
-    private HashMap<String, Integer> choices = new HashMap<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -45,57 +39,76 @@ public class NewEventForm extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event_form);
 
-        InitSpinnerChoices();
         RegisterEventsControls();
-
-
     }
 
-    public void backToEventList(View view)
-    {
-        finish();
-    }
-
-    public void createNewEvent(View view)
-    {
+    /**
+     * Get the inputs and create event
+     */
+    public void createNewEvent() {
         //region Getting controls
         EditText titleEvent = (EditText) findViewById(R.id.EditTxtEventName);
         EditText descEvent = (EditText) findViewById(R.id.EditTxtDescription);
         Switch switchButton = (Switch) findViewById(R.id.SwtchRepetition);
-        Spinner repetitionChoices = (Spinner) findViewById(R.id.SpinChoices);
         //endregion
 
+        //region Get the inputs
         String title = titleEvent.getText().toString();
         String description = descEvent.getText().toString();
         boolean repetition = switchButton.isChecked();
-        long cycle = 0;
-        if(repetition)
-             cycle = choices.get(repetitionChoices.getSelectedItem());
+        EventCycle cycle = null;
+        if(repetition){
+            int minutes = (int) ((Spinner) findViewById(R.id.SpinMinutes)).getSelectedItem();
+            int heures = (int) ((Spinner) findViewById(R.id.SpinHeures)).getSelectedItem();
+            int jours = (int) ((Spinner) findViewById(R.id.SpinJours)).getSelectedItem();
+            int mois = (int) ((Spinner) findViewById(R.id.SpinMois)).getSelectedItem();
+            int annee = (int) ((Spinner) findViewById(R.id.SpinAnnee)).getSelectedItem();
+
+            cycle = new EventCycle(minutes, heures, jours, mois, annee);
+        }
         String dateString = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss").format(eventPlanning.getTime());
-
-
         Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
+        //endregion
 
-        Event event = new Event(title, account, description, dateString, cycle, repetition);
+        //region Send data to API and close activity
+        Event event = new Event(title, account, description, eventPlanning, cycle, repetition);
 
         try {
             new APIEvents().Create(this, event);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        finishActivity(RESULT_OK);
+        finish();
+        //endregion
+
+        //DEBUG LINE
         System.out.println(event.toString());
     }
 
+    /**
+     * Setting up the controls comportements and actions
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void RegisterEventsControls(){
         //region Getting controls
+        // General controls
         EditText dateAndTimeField= (EditText) findViewById(R.id.DateAndTimePicker);
         EditText titleEvent = (EditText) findViewById(R.id.EditTxtEventName);
         EditText descEvent = (EditText) findViewById(R.id.EditTxtDescription);
+        // Interval controls
         Switch switchButton = (Switch) findViewById(R.id.SwtchRepetition);
         TextView textRepetition = (TextView) findViewById(R.id.TxtRepetition);
-        Spinner repetitionChoices = (Spinner) findViewById(R.id.SpinChoices);
+        Spinner minutes = (Spinner) findViewById(R.id.SpinMinutes);
+        Spinner heures = (Spinner) findViewById(R.id.SpinHeures);
+        Spinner jours = (Spinner) findViewById(R.id.SpinJours);
+        Spinner mois = (Spinner) findViewById(R.id.SpinMois);
+        Spinner annee = (Spinner) findViewById(R.id.SpinAnnee);
+        TextView txtMinutes = (TextView) findViewById(R.id.TxtMinutes);
+        TextView txtHeures = (TextView) findViewById(R.id.TxtHeures);
+        TextView txtJours = (TextView) findViewById(R.id.TxtJours);
+        TextView txtMois = (TextView) findViewById(R.id.TxtMois);
+        TextView txtAnnee = (TextView) findViewById(R.id.TxtAnnee);
+        // Button validation
         Button addEvent = (Button) findViewById(R.id.ButtonAddEvent);
         //endregion
 
@@ -123,12 +136,12 @@ public class NewEventForm extends AppCompatActivity
             dateAndTimeField.setText(dateString);
 
             // Show TimePicker after I selected the date
-            new TimePickerDialog(NewEventForm.this, time, eventPlanning.get(Calendar.HOUR), eventPlanning.get(Calendar.MINUTE), true).show();
+            new TimePickerDialog(EventForm.this, time, eventPlanning.get(Calendar.HOUR), eventPlanning.get(Calendar.MINUTE), true).show();
         };
 
         // Show DatePicker when I click on the EditText
         dateAndTimeField.setOnClickListener(v -> {
-            new DatePickerDialog(NewEventForm.this, date, eventPlanning
+            new DatePickerDialog(EventForm.this, date, eventPlanning
                     .get(Calendar.YEAR), eventPlanning.get(Calendar.MONTH),
                     eventPlanning.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -144,23 +157,44 @@ public class NewEventForm extends AppCompatActivity
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     textRepetition.setVisibility(View.VISIBLE);
-                    repetitionChoices.setVisibility(View.VISIBLE);
+                    minutes.setVisibility(View.VISIBLE);
+                    txtMinutes.setVisibility(View.VISIBLE);
+                    heures.setVisibility(View.VISIBLE);
+                    txtHeures.setVisibility(View.VISIBLE);
+                    jours.setVisibility(View.VISIBLE);
+                    txtJours.setVisibility(View.VISIBLE);
+                    mois.setVisibility(View.VISIBLE);
+                    txtMois.setVisibility(View.VISIBLE);
+                    annee.setVisibility(View.VISIBLE);
+                    txtAnnee.setVisibility(View.VISIBLE);
                 } else {
                     textRepetition.setVisibility(View.INVISIBLE);
-                    repetitionChoices.setVisibility(View.INVISIBLE);
+                    minutes.setVisibility(View.INVISIBLE);
+                    txtMinutes.setVisibility(View.INVISIBLE);
+                    heures.setVisibility(View.INVISIBLE);
+                    txtHeures.setVisibility(View.INVISIBLE);
+                    jours.setVisibility(View.INVISIBLE);
+                    txtJours.setVisibility(View.INVISIBLE);
+                    mois.setVisibility(View.INVISIBLE);
+                    txtMois.setVisibility(View.INVISIBLE);
+                    annee.setVisibility(View.INVISIBLE);
+                    txtAnnee.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        // Get a list of choices
-        List<String> choicesArrayForAdapter = new ArrayList<>();
-        choicesArrayForAdapter.addAll(choices.keySet());
-        choicesArrayForAdapter.sort((p1, p2) -> p2.compareTo(p1));
-
-        // Set the list in the Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, choicesArrayForAdapter);
-        repetitionChoices.setAdapter(adapter);
-
+        // Setup the adapters
+        ArrayAdapter<Integer> adapterMinutes = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.minutes_array)));
+        ArrayAdapter<Integer> adapterHours = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.hours_array)));
+        ArrayAdapter<Integer> adapterDays = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.days_array)));
+        ArrayAdapter<Integer> adapterMonths = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.months_array)));
+        ArrayAdapter<Integer> adapterYears = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.years_array)));
+        // Set the adapters in spinners
+        minutes.setAdapter(adapterMinutes);
+        heures.setAdapter(adapterHours);
+        jours.setAdapter(adapterDays);
+        mois.setAdapter(adapterMonths);
+        annee.setAdapter(adapterYears);
         //endregion
 
         //region Register Input Validation
@@ -170,8 +204,15 @@ public class NewEventForm extends AppCompatActivity
         //endregion
     }
 
+    /**
+     * Get the OnClickListener for the button. The listener job is to validate the inputs.
+     * @param titleEvent EditText for event title
+     * @param descEvent EditText for event description
+     * @param dateAndTimeField EditText for event date and time
+     * @return A OnClickListener configured
+     */
     private View.OnClickListener getValidationListener(EditText titleEvent, EditText descEvent, EditText dateAndTimeField){
-        View.OnClickListener listener = (View.OnClickListener) view -> {
+        View.OnClickListener listener = view -> {
             boolean checkError = false;
 
             if(titleEvent.getText().toString().length() < getResources().getInteger(R.integer.EVENT_TITLE_LENGTH)){
@@ -190,23 +231,9 @@ public class NewEventForm extends AppCompatActivity
             }
 
             if(!checkError){
-                createNewEvent(view);
+                createNewEvent();
             }
         };
         return listener;
     }
-
-    private void InitSpinnerChoices() {
-        choices.put("1 heure", 3600);
-        choices.put("6 heures", 21600);
-        choices.put("12 heures", 43200);
-        choices.put("1 jours", 86400);
-        choices.put("1 semaine", 604800);
-        choices.put("2 semaines", 1209600);
-        choices.put("1 mois", 2419200);
-        choices.put("1 trimestre", 7257600);
-        choices.put("1 semestre", 14515200);
-        choices.put("1 ans", 29030400);
-    }
-
 }

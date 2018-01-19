@@ -1,13 +1,13 @@
 package fr.hexus.aprivate.mondayreminder;
 
-import android.content.SharedPreferences;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.Friend;
+import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ApiQueries
 {
@@ -18,19 +18,6 @@ public class ApiQueries
     {
         this.apiAddress = address;
         this.apiPort = port;
-    }
-
-    public List<Event> getMyEvents(Account account)
-    {
-        Event event1 = new Event("Noël", account, "Dinner at home.", "2017-12-24 19:00:00", 0, true);
-        Event event2 = new Event("New Year", account, "Dinner at home.", "2017-12-31 19:00:00", 0, true);
-
-        List<Event> eventList = new ArrayList<>();
-
-        eventList.add(event1);
-        eventList.add(event2);
-
-        return eventList;
     }
 
     public List<Friend> getMyFriends(Account account)

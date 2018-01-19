@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 
+import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+import fr.hexus.aprivate.mondayreminder.R;
 
 public class ParticipantAdapter extends ArrayAdapter<Participation>
 {

@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.R;
 
 public class EventAdapter extends ArrayAdapter<Event>
 {
@@ -31,9 +34,9 @@ public class EventAdapter extends ArrayAdapter<Event>
         TextView eventDate = row.findViewById(R.id.eventDate);
         TextView eventCreator = row.findViewById(R.id.eventCreator);
 
-        eventName.setText(currentEvent.getEventName());
-        eventDate.setText(currentEvent.getEventDate());
-        eventCreator.setText(currentEvent.getEventCreator());
+        eventName.setText(currentEvent.getName());
+        eventDate.setText(currentEvent.getSimpleDate());
+        eventCreator.setText(currentEvent.getCreator());
 
         return row;
     }

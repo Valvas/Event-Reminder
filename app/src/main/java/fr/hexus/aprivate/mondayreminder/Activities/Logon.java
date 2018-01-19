@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
+import fr.hexus.aprivate.mondayreminder.R;
 
-public class LogonPage extends Activity
+public class Logon extends Activity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)

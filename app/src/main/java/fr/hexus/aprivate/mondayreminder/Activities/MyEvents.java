@@ -1,14 +1,14 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.List;
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.R;
 
 public class MyEvents extends ListActivity
 {
@@ -23,10 +23,6 @@ public class MyEvents extends ListActivity
 
         Account currentAccount = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
 
-        List<Event> eventList = new ApiQueries(apiAddress, apiPort).getMyEvents(currentAccount);
-
-        EventAdapter eventAdapter = new EventAdapter(this, eventList);
-        setListAdapter(eventAdapter);
     }
 
     public void openMenu(View view)
@@ -40,7 +36,7 @@ public class MyEvents extends ListActivity
 
     public void createNewEvent(View view)
     {
-        Intent intent = new Intent(this, NewEventForm.class);
+        Intent intent = new Intent(this, EventForm.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
@@ -53,7 +49,7 @@ public class MyEvents extends ListActivity
         Event clicked = (Event) getListAdapter().getItem(position);
         super.onListItemClick(listView, view, position, id);
 
-        Intent intent = new Intent(this, EventView.class);
+        Intent intent = new Intent(this, EventDetails.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
         intent.putExtra(getResources().getString(R.string.EVENT), clicked);

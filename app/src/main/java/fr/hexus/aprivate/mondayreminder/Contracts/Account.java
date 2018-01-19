@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Contracts;
 
 import java.io.Serializable;
 

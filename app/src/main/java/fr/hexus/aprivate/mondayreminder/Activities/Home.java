@@ -1,15 +1,15 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.R;
 
-public class HomePage extends AppCompatActivity
+public class Home extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)

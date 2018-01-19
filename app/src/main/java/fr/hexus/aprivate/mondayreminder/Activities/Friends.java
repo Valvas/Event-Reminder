@@ -1,11 +1,14 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class FriendsHome extends AppCompatActivity
+import fr.hexus.aprivate.mondayreminder.Activities.Menu;
+import fr.hexus.aprivate.mondayreminder.R;
+
+public class Friends extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)

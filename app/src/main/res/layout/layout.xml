@@ -113,15 +113,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="343dp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/SpinMinutes"
-        tools:layout_editor_absoluteY="353dp" />
-
     <Spinner
         android:id="@+id/SpinHeures"
         android:layout_width="80dp"
@@ -159,11 +150,53 @@
         app:layout_constraintTop_toBottomOf="@+id/SpinMois" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/TxtHeures"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="380dp" />
+        android:layout_marginStart="8dp"
+        android:text="heures"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinHeures"
+        tools:layout_editor_absoluteY="375dp" />
+
+    <TextView
+        android:id="@+id/TxtJours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="jours"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinJours"
+        tools:layout_editor_absoluteY="407dp" />
+
+    <TextView
+        android:id="@+id/TxtMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="minutes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinMinutes"
+        tools:layout_editor_absoluteY="343dp" />
+
+    <TextView
+        android:id="@+id/TxtMois"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="mois"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinMois"
+        tools:layout_editor_absoluteY="439dp" />
+
+    <TextView
+        android:id="@+id/TxtAnnee"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="année"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinAnnee"
+        tools:layout_editor_absoluteY="471dp" />
 
 </android.support.constraint.ConstraintLayout>

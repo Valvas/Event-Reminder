@@ -4,22 +4,20 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 import fr.hexus.aprivate.mondayreminder.API.APICallback;
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
-import fr.hexus.aprivate.mondayreminder.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 
 /**
  * Created by Nicolas on 07/01/2018.
@@ -35,7 +33,7 @@ public class APIEvents extends APIRequester {
         content.put("email", requesterEmail);
 
         try{
-            this.readFromUrl(this.route + "get-my-events", content, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "get-my-events", content, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -57,7 +55,7 @@ public class APIEvents extends APIRequester {
         JSONObject eventNode = buildEventJSON(newEvent);
 
         try{
-            this.readFromUrl(this.route + "create-new-event", eventNode, "POST", context, new APICallback() {
+            this.readFromUrl(this.route + "create-new-event", eventNode, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -83,7 +81,7 @@ public class APIEvents extends APIRequester {
         JSONObject eventNode = buildEventJSON(newEvent);
 
         try{
-            this.readFromUrl(this.route + "update-event", eventNode, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "update-event", eventNode, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -105,7 +103,7 @@ public class APIEvents extends APIRequester {
         eventNode.put("event", idEvent);
 
         try{
-            this.readFromUrl(this.route + "delete-event", eventNode, "DELETE", context, new APICallback() {
+            this.readFromUrl(this.route + "delete-event", eventNode, Request.Method.DELETE, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -126,15 +124,17 @@ public class APIEvents extends APIRequester {
         JSONObject contentNode = new JSONObject();
         JSONObject contentSubNode = new JSONObject();
 
-        contentNode.put("name", event.getEventName());
-        contentNode.put("description", event.getEventDescription());
+        contentNode.put("name", event.getName());
+        contentNode.put("description", event.getDescription());
         contentNode.put("accountEmail", event.getLinkedAccount().getAccountIdentifier());
-        contentNode.put("date", DateToTimestamp(event.getRawEventDate()));
-        contentNode.put("isPonctual", event.getEventCycleBoolean());
+        contentNode.put("date", DateToTimestamp(event.getSimpleDate()));
+        contentNode.put("isPonctual", event.getCycleState());
 
-        for(Map.Entry<String, Long> entry : event.getDetailsEventCycle().entrySet()){
-            contentSubNode.put(entry.getKey(), entry.getValue());
-        }
+        contentSubNode.put("minutes", event.getCycle().getMinutes());
+        contentSubNode.put("hours", event.getCycle().getHeures());
+        contentSubNode.put("days", event.getCycle().getJours());
+        contentSubNode.put("months", event.getCycle().getMois());
+        contentSubNode.put("years", event.getCycle().getAnnee());
 
         contentNode.put("timeCycle", contentSubNode);
         eventNode.put("event", contentNode);

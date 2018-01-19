@@ -1,16 +1,19 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.app.ListActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class ParticipantsView extends ListActivity
+import fr.hexus.aprivate.mondayreminder.ApiQueries;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
+import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.ParticipantAdapter;
+import fr.hexus.aprivate.mondayreminder.R;
+
+public class Participants extends ListActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,7 +25,7 @@ public class ParticipantsView extends ListActivity
 
         TextView eventName = (TextView) findViewById(R.id.eventName);
 
-        eventName.setText(getText(R.string.participants_view_event_name) + " : " + event.getEventName());
+        eventName.setText(getText(R.string.participants_view_event_name) + " : " + event.getName());
 
         List<Participation> participantsList = new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipantsToEvent(event);
 

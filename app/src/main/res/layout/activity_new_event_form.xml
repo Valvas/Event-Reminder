@@ -58,11 +58,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:clickable="true"
         android:ems="10"
+        android:focusableInTouchMode="false"
         android:hint="Date &amp; heure"
         android:inputType="datetime"
-        android:clickable="true"
-        android:focusableInTouchMode="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditTxtDescription" />
@@ -71,38 +71,27 @@
         android:id="@+id/SwtchRepetition"
         android:layout_width="145dp"
         android:layout_height="47dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:switchTextAppearance="@style/TextAppearance.AppCompat.Large"
         android:text="Répétition "
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DateAndTimePicker"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/DateAndTimePicker" />
 
     <TextView
         android:id="@+id/TxtRepetition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Interval :"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SwtchRepetition" />
-
-    <Spinner
-        android:id="@+id/SpinChoices"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TxtRepetition" />
 
     <Button
         android:id="@+id/ButtonAddEvent"
@@ -116,5 +105,113 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/SpinMinutes"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TxtRepetition" />
+
+    <Spinner
+        android:id="@+id/SpinHeures"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinMinutes" />
+
+    <Spinner
+        android:id="@+id/SpinJours"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinHeures" />
+
+    <Spinner
+        android:id="@+id/SpinMois"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinJours" />
+
+    <Spinner
+        android:id="@+id/SpinAnnee"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinMois" />
+
+    <TextView
+        android:id="@+id/TxtHeures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        android:text="heures"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinHeures"
+        app:layout_constraintTop_toBottomOf="@+id/TxtMinutes"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/TxtJours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        android:text="jours"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinJours"
+        app:layout_constraintTop_toBottomOf="@+id/TxtHeures"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/TxtMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="9dp"
+        android:text="minutes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinMinutes"
+        app:layout_constraintTop_toBottomOf="@+id/TxtRepetition"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/TxtMois"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        android:text="mois"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinMois"
+        app:layout_constraintTop_toBottomOf="@+id/TxtJours"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/TxtAnnee"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        android:text="année"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/SpinAnnee"
+        app:layout_constraintTop_toBottomOf="@+id/TxtMois"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

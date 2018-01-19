@@ -1,4 +1,6 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Contracts;
+
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 
 public class Friend
 {

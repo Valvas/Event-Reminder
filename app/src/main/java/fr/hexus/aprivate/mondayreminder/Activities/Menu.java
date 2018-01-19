@@ -1,9 +1,11 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import fr.hexus.aprivate.mondayreminder.R;
 
 public class Menu extends AppCompatActivity
 {
@@ -23,7 +25,7 @@ public class Menu extends AppCompatActivity
     {
         finishAffinity();
 
-        startActivity(new Intent(this, LogonPage.class));
+        startActivity(new Intent(this, Logon.class));
     }
 
     public void startEventsActivity(View view)
@@ -37,7 +39,7 @@ public class Menu extends AppCompatActivity
 
     public void startFriendsActivity(View view)
     {
-        Intent intent = new Intent(this, FriendsHome.class);
+        Intent intent = new Intent(this, Friends.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
@@ -46,7 +48,7 @@ public class Menu extends AppCompatActivity
 
     public void startHomeActivity(View view)
     {
-        Intent intent = new Intent(this, HomePage.class);
+        Intent intent = new Intent(this, Home.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 

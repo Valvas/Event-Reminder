@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogonPage">
+        <activity android:name=".Activities.Logon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomePage" />
-        <activity android:name=".Menu" />
-        <activity android:name=".MyEvents" />
-        <activity android:name=".NewEventForm" />
-        <activity android:name=".EventView" />
-        <activity android:name=".ParticipantsView" />
-        <activity android:name=".FriendsHome"></activity>
+        <activity android:name=".Activities.Home" />
+        <activity android:name=".Activities.Menu" />
+        <activity android:name=".Activities.MyEvents" />
+        <activity android:name=".Activities.EventForm" />
+        <activity android:name=".Activities.EventDetails" />
+        <activity android:name=".Activities.Participants" />
+        <activity android:name=".Activities.Friends"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

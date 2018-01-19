@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Header;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Nicolas on 19/12/2017.
@@ -53,11 +55,11 @@ abstract public class APIRequester {
      * @param URL API Route URL
      * @param content List for body HTTP Request
      */
-    public void readFromUrl(String URL, final JSONObject content, String methodRequest, Context caller, final APICallback callback) throws Exception{
+    public void readFromUrl(String URL, final JSONObject content, int methodRequest, Context caller, final APICallback callback) throws Exception{
         try {
             com.android.volley.RequestQueue queue = Volley.newRequestQueue(caller);
 
-            final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, content,
+            final JsonObjectRequest request = new JsonObjectRequest(methodRequest, URL, content,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -70,7 +72,14 @@ abstract public class APIRequester {
                         callback.onErrorResponse(error);
                     }
                 }
-            );
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = super.getHeaders();
+                    //params.put("Authorization", "TOFILL");
+                    return super.getHeaders();
+                }
+            };
 
             queue.add(request);
             queue.start();

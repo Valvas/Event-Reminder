@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Contracts;
 
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
 
@@ -17,7 +17,7 @@ public class Participation
 
     public String toString()
     {
-        return this.participatedEvent.getEventName() +
+        return this.participatedEvent.getName() +
                 "\n" +
                 this.participatingAccount.getAccountFirstname() +
                 " " +

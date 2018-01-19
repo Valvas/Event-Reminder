@@ -2,6 +2,7 @@ package fr.hexus.aprivate.mondayreminder.API.APIRequests;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
@@ -25,7 +26,7 @@ public class APIParticipations extends APIRequester {
         content.put("event", eventID);
 
         try{
-            this.readFromUrl(this.route + "add-participant-to-event", content, "POST", context, new APICallback() {
+            this.readFromUrl(this.route + "add-participant-to-event", content, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -55,7 +56,7 @@ public class APIParticipations extends APIRequester {
         content.put("status", status);
 
         try{
-            this.readFromUrl(this.route + "update-participation-status", content, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "update-participation-status", content, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -78,7 +79,7 @@ public class APIParticipations extends APIRequester {
         content.put("event", eventID);
 
         try{
-            this.readFromUrl(this.route + "remove-participant-from-event", content, "DELETE", context, new APICallback() {
+            this.readFromUrl(this.route + "remove-participant-from-event", content, Request.Method.DELETE, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -105,7 +106,7 @@ public class APIParticipations extends APIRequester {
         content.put("event", eventID);
 
         try{
-            this.readFromUrl(this.route + "get-participants-to-event", content, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "get-participants-to-event", content, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -128,7 +129,7 @@ public class APIParticipations extends APIRequester {
         content.put("event", eventID);
 
         try{
-            this.readFromUrl(this.route + "get-my-participation-status-for-one-event", content, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "get-my-participation-status-for-one-event", content, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
@@ -150,7 +151,7 @@ public class APIParticipations extends APIRequester {
         content.put("email", participantID);
 
         try{
-            this.readFromUrl(this.route + "get-my-participation-status-for-all-events", content, "PUT", context, new APICallback() {
+            this.readFromUrl(this.route + "get-my-participation-status-for-all-events", content, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server

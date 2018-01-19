@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="fr.hexus.aprivate.mondayreminder.EventView">
+        tools:context="fr.hexus.aprivate.mondayreminder.Activities.EventDetails">
 
         <Button
             android:id="@+id/openMenu"

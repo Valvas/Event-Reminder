@@ -1,4 +1,4 @@
-package fr.hexus.aprivate.mondayreminder;
+package fr.hexus.aprivate.mondayreminder.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fr.hexus.aprivate.mondayreminder.ApiQueries;
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+import fr.hexus.aprivate.mondayreminder.R;
 
-public class EventView extends AppCompatActivity
+public class EventDetails extends AppCompatActivity
 {
     @Override
     @SuppressWarnings("deprecation")
@@ -67,14 +71,14 @@ public class EventView extends AppCompatActivity
         TextView eventCreator = (TextView)  findViewById(R.id.eventCreator);
         TextView eventDescription = (TextView)  findViewById(R.id.eventDescription);
 
-        eventName.setText(event.getEventName());
-        eventDate.setText(event.getEventDate());
-        eventCycle.setText(event.getEventCycle());
+        eventName.setText(event.getName());
+        eventDate.setText(event.getPrettyDate());
+        eventCycle.setText(event.getCycleDetails());
 
         if(account.equals(event.getLinkedAccount())){ eventCreator.setText("Créé par : Vous"); }
-        else{ eventCreator.setText("Créé par : " + event.getEventCreator()); }
+        else{ eventCreator.setText("Créé par : " + event.getCreator()); }
 
-        eventDescription.setText("Description : \n\n" + event.getEventDescription());
+        eventDescription.setText("Description : \n\n" + event.getDescription());
     }
 
     public void getBackToTheList(View view)
@@ -84,7 +88,7 @@ public class EventView extends AppCompatActivity
 
     public void openParticipantsView(View view)
     {
-        Intent intent = new Intent(this, ParticipantsView.class);
+        Intent intent = new Intent(this, Participants.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
