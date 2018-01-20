@@ -1,7 +1,5 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
-import fr.hexus.aprivate.mondayreminder.Contracts.Account;
-
 public class Friend
 {
     private Account friendOwner;
@@ -20,7 +18,7 @@ public class Friend
     public String getFriendLastname(){ return this.friendLastname; }
     public String getFriendFirstname(){ return this.friendFirstname; }
     public String getFriendIdentifier(){ return this.friendIdentifier; }
-    public String getFriendOwner(){ return this.friendOwner.getAccountFirstname() + " " + this.friendOwner.getAccountLastname(); }
+    public String getFriendOwner(){ return this.friendOwner.getFirstname() + " " + this.friendOwner.getLastName(); }
 
     public String toString()
     {

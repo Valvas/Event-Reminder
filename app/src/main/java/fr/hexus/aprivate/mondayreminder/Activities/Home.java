@@ -21,7 +21,7 @@ public class Home extends AppCompatActivity
 
         TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
 
-        welcomeMessage.setText(welcomeMessage.getText() + " " + account.getAccountFirstname());
+        welcomeMessage.setText(welcomeMessage.getText() + " " + account.getFirstname());
     }
 
     public void openMenu(View view)

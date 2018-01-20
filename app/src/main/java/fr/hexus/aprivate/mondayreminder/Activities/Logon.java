@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
 import fr.hexus.aprivate.mondayreminder.R;
@@ -28,7 +31,7 @@ public class Logon extends Activity
 
         // I know it's bad, but, a singleton would be appropriate here ?
         APIUser UserEndAPI = new APIUser();
-
+        
         try {
             UserEndAPI.Create(this, "nicolas.demoncourt@gmail.com", "Nicolas", "Cornu");
         } catch (Exception exp){

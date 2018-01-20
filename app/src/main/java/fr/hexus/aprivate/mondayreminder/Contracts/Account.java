@@ -1,39 +1,75 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+
 import java.io.Serializable;
 
 public class Account implements Serializable
 {
-    private String accountLastname;
-    private String accountFirstname;
-    private String accountIdentifier;
+    //region Instance
+    private static Account Instance = null;
 
-    public Account(String lastname, String firstname, String identifier)
-    {
-        this.accountLastname = lastname;
-        this.accountFirstname = firstname;
-        this.accountIdentifier = identifier;
+    public static Account getInsance(){
+        if(Instance != null)
+            return null;
+        return Instance;
     }
 
-    public boolean equals(Account account)
+    public static Account CreateInstance(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount) throws IllegalAccessException {
+        if(Instance != null)
+            throw new IllegalAccessException("An instance is already setting up.");
+
+        Instance = new Account(lastname, firstname, identifier, googleAccount);
+        return Instance;
+    }
+    //endregion
+
+    //region Attributes
+    private String lastName;
+    private String firstname;
+    private String identifier;
+    private GoogleSignInAccount googleAccount;
+    //endregion
+
+    //region Contructor
+    public Account(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount)
     {
-        return this.accountIdentifier.equals(account.getAccountIdentifier());
+        this.lastName = lastname;
+        this.firstname = firstname;
+        this.identifier = identifier;
+        this.googleAccount = googleAccount;
+    }
+    //endregion
+
+    //region Getters
+    public String getLastName()
+    {
+        return this.lastName;
     }
 
-    public String getAccountLastname()
+    public String getFirstname()
     {
-        return this.accountLastname;
+        return this.firstname;
     }
 
-    public String getAccountFirstname()
-    {
-        return this.accountFirstname;
+    public String getIdentifier() { return this.identifier; }
+
+    public GoogleSignInAccount getGoogleAccount() { return this.googleAccount; }
+    //endregion
+
+    //region Override methods
+    public boolean equals(Account account) {
+        return this.identifier.equals(account.getIdentifier());
     }
 
-    public String getAccountIdentifier() { return this.accountIdentifier; }
-
-    public String toString()
-    {
-        return "lastname : " + this.accountLastname + "\n" + "firstname : " + this.accountFirstname;
+    @Override
+    public String toString() {
+        return "Account{" +
+                "lastName='" + lastName + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", identifier='" + identifier + '\'' +
+                '}';
     }
+    //endregion
 }

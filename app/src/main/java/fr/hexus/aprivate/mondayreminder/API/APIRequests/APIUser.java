@@ -36,7 +36,7 @@ public class APIUser extends APIRequester {
         accountNode.put("account", contentNode);
 
         try {
-            readFromUrl(route + "create-account", accountNode, Request.Method.POST, context, new APICallback() {
+            readFromUrl(route + "public/create-account", accountNode, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject resultapi) {
                     // Instructions for what to do after the register
@@ -45,7 +45,7 @@ public class APIUser extends APIRequester {
                         if(resultapi.getBoolean("result") == true){
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
-                            Account test = new Account(lastName, firstName, email);
+                            Account test = new Account(lastName, firstName, email, null);
                             intent.putExtra(context.getResources().getString(R.string.ACCOUNT), test);
                             context.startActivity(intent);
                         }
@@ -88,7 +88,7 @@ public class APIUser extends APIRequester {
                         if(resultapi.getBoolean("result") == true){
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
-                            Account test = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com");
+                            Account test = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com", null);
                             intent.putExtra(context.getResources().getString(R.string.ACCOUNT), test);
                             context.startActivity(intent);
                         }

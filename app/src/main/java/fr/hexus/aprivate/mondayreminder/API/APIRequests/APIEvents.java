@@ -126,7 +126,7 @@ public class APIEvents extends APIRequester {
 
         contentNode.put("name", event.getName());
         contentNode.put("description", event.getDescription());
-        contentNode.put("accountEmail", event.getLinkedAccount().getAccountIdentifier());
+        contentNode.put("accountEmail", event.getLinkedAccount().getIdentifier());
         contentNode.put("date", DateToTimestamp(event.getSimpleDate()));
         contentNode.put("isPonctual", event.getCycleState());
 
