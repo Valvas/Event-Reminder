@@ -15,6 +15,7 @@ import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Activities.Home;
 import fr.hexus.aprivate.mondayreminder.Activities.Logon;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
 /**
@@ -23,9 +24,9 @@ import fr.hexus.aprivate.mondayreminder.R;
 
 public class APIUser extends APIRequester {
 
-    private final String route = this.baseURL + "/accounts/";
+    private final String route = this.baseURL + "/public/accounts/";
 
-    public void Create(final Context context, final String email, final String firstName, final String lastName) throws JSONException {
+    public void Login(final Context context, final String email, final String firstName, final String lastName) throws JSONException {
         JSONObject accountNode = new JSONObject();
         JSONObject contentNode = new JSONObject();
 
@@ -36,7 +37,7 @@ public class APIUser extends APIRequester {
         accountNode.put("account", contentNode);
 
         try {
-            readFromUrl(route + "public/create-account", accountNode, Request.Method.POST, context, new APICallback() {
+            readFromUrl(route + "create-account", accountNode, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject resultapi) {
                     // Instructions for what to do after the register
@@ -45,8 +46,7 @@ public class APIUser extends APIRequester {
                         if(resultapi.getBoolean("result") == true){
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
-                            Account test = new Account(lastName, firstName, email, null);
-                            intent.putExtra(context.getResources().getString(R.string.ACCOUNT), test);
+                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, null, resultapi.getString("token"));
                             context.startActivity(intent);
                         }
                     } catch (Exception e) {
@@ -69,44 +69,4 @@ public class APIUser extends APIRequester {
             e.printStackTrace();
         }
     }
-
-    // I dunno what to write here, because I don't know what Google Login yield
-    public void Login(final Context context, String... args) throws JSONException {
-        JSONObject accountNode = new JSONObject();
-        final JSONObject contentNode = new JSONObject();
-
-        contentNode.put("email", args[0]);
-        accountNode.put("account", contentNode);
-
-        try {
-            readFromUrl(route + "login-account", accountNode, Request.Method.POST, context, new APICallback() {
-                @Override
-                public void onSuccessResponse(JSONObject resultapi) {
-                    // Instructions for what to do after the logged account
-                    // EXEMPLE
-                    try {
-                        if(resultapi.getBoolean("result") == true){
-                            ((Logon)context).finishAffinity();
-                            Intent intent = new Intent(context, Home.class);
-                            Account test = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com", null);
-                            intent.putExtra(context.getResources().getString(R.string.ACCOUNT), test);
-                            context.startActivity(intent);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // Handle the error with a Toast or MessageBox to show on UI
-                    Log.i(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
-                    ((Logon)context).showError("Error : " + error.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

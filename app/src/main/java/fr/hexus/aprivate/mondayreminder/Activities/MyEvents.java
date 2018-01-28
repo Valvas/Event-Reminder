@@ -4,10 +4,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 
+import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
 public class MyEvents extends ListActivity
@@ -18,10 +21,9 @@ public class MyEvents extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        String apiAddress = getString(R.string.API_ADDRESS);
-        int apiPort = getResources().getInteger(R.integer.API_PORT);
+        APIEvents apiEvents = new APIEvents();
 
-        Account currentAccount = (Account) getIntent().getSerializableExtra(getString(R.string.ACCOUNT));
+        apiEvents.Get(this, GlobalVariables.CurrentAccount.getIdentifier());
 
     }
 
@@ -51,7 +53,6 @@ public class MyEvents extends ListActivity
 
         Intent intent = new Intent(this, EventDetails.class);
 
-        intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
         intent.putExtra(getResources().getString(R.string.EVENT), clicked);
 
         startActivity(intent);

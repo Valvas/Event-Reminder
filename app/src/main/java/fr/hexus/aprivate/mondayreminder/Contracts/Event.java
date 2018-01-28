@@ -1,8 +1,11 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import fr.hexus.aprivate.mondayreminder.Enums.Months;
 
@@ -16,7 +19,7 @@ public class Event implements Serializable
     /**
      * Date of the event
      */
-    private Calendar date;
+    private DateTime date;
     /**
      * Description of the event
      */
@@ -25,6 +28,10 @@ public class Event implements Serializable
      * Account of creator
      */
     private Account creator;
+    /**
+     * Account of creator
+     */
+    private String idCreator;
     /**
      * Time cycle of the event
      */
@@ -36,13 +43,23 @@ public class Event implements Serializable
     //endregion
 
     //region Constructor
-    public Event(String name, Account creator, String description, Calendar date, EventCycle cycle, boolean ponctual)
+    public Event(String name, Account creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
     {
         this.date = date;
         this.name = name;
         this.cycle = cycle;
         this.isPonctual = ponctual;
         this.creator = creator;
+        this.description = description;
+    }
+
+    public Event(String name, String creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
+    {
+        this.date = date;
+        this.name = name;
+        this.cycle = cycle;
+        this.isPonctual = ponctual;
+        this.idCreator = creator;
         this.description = description;
     }
     //endregion
@@ -54,7 +71,11 @@ public class Event implements Serializable
 
     public Account getLinkedAccount(){ return this.creator; }
 
-    public String getCreator(){ return this.creator.getFirstname() + " " + this.creator.getLastName(); }
+    public String getCreator(){
+        if(this.creator == null)
+            return this.idCreator;
+        return this.creator.getFirstname() + " " + this.creator.getLastName();
+    }
 
     //region Date Getters
     /**
@@ -64,23 +85,23 @@ public class Event implements Serializable
     public String getPrettyDate()
     {
         return "Date : " +
-                this.date.get(Calendar.DAY_OF_MONTH) +
+                this.date.getDayOfMonth() +
                 " " +
-                getTextMonthFromItsNumber(this.date.get(Calendar.MONTH)) +
+                getTextMonthFromItsNumber(this.date.getMonthOfYear()) +
                 " " +
-                this.date.get(Calendar.YEAR);
+                this.date.getYear();
     }
 
     /**
-     * Return a date formatted with the following pattern : yyyy-MM-dd hh:MM:ss
+     * Return a date formatted with the following pattern : yyyy-MM-dd hh:mm:ss
      * @return A string formatted date
      */
     public String getSimpleDate(){
-        String dateString = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss").format(this.date.getTime());
+        String dateString = this.date.toString("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         return dateString;
     }
 
-    public Calendar getDate(){
+    public DateTime getDate(){
         return date;
     }
     //endregion
@@ -94,16 +115,16 @@ public class Event implements Serializable
 
     public String getCycleDetails(){
         if(!this.isPonctual)
-            return "Répétitif : Non";
+            return "Répétition : " + this.cycle.toString();
 
-        return "Répétition : " + this.cycle.toString();
+        return "Répétitif : Non";
     }
 
     public Boolean getCycleState(){
         if(!this.isPonctual)
-            return false;
+            return true;
 
-        return true;
+        return false;
     }
     //endregion
     //endregion
@@ -156,4 +177,4 @@ public class Event implements Serializable
                 + "\n";
     }
     //endregion
-}
+} 

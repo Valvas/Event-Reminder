@@ -2,22 +2,35 @@ package fr.hexus.aprivate.mondayreminder.API.APIRequests;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.google.common.primitives.Booleans;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import fr.hexus.aprivate.mondayreminder.API.APICallback;
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
+import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.EventAdapter;
+import fr.hexus.aprivate.mondayreminder.Activities.MyEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
+import fr.hexus.aprivate.mondayreminder.R;
 
 /**
  * Created by Nicolas on 07/01/2018.
@@ -26,18 +39,63 @@ import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 public class APIEvents extends APIRequester {
 
     private final String route = this.baseURL + "/events/";
+    private List<Event> eventsCache;
 
-    public void Get(final Context context, final String requesterEmail) throws JSONException {
-        JSONObject content = new JSONObject();
-
-        content.put("email", requesterEmail);
-
+    public void Get(final Context context, final String requesterEmail) {
         try{
-            this.readFromUrl(this.route + "get-my-events", content, Request.Method.PUT, context, new APICallback() {
+            JSONObject content = new JSONObject();
+
+            content.put("email", requesterEmail);
+
+            if(eventsCache != null){
+                TextView loadingText = ((MyEvents)context).findViewById(R.id.LoadText);
+                loadingText.setVisibility(View.INVISIBLE);
+
+                EventAdapter eventListAdapter = new EventAdapter(context, eventsCache);
+                ((MyEvents)context).setListAdapter(eventListAdapter);
+            }
+
+            this.readFromUrl(this.route + "get-my-events", content, Request.Method.GET, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
-                    Toast.makeText(context, result.toString(), Toast.LENGTH_SHORT);
+                    try {
+                        List<Event> eventList = new ArrayList<>();
+                        if(result.getBoolean("result") == true){
+
+
+                            JSONObject events = result.getJSONObject("events");
+                            Iterator<?> keys = events.keys();
+
+                            while(keys.hasNext()){
+                                JSONObject event = events.getJSONObject((String)keys.next());
+
+                                String name = event.getString("name");
+                                String description = event.getString("description");
+                                String creator = event.getString("account_email");
+                                boolean ponctual = event.getInt("is_ponctual") == 1;
+                                int cycleHours = event.getInt("cycle_hours");
+                                int cycleDays = event.getInt("cycle_days");
+                                int cycleMonths = event.getInt("cycle_months");
+                                int cycleYears = event.getInt("cycle_years");
+                                DateTime date = new DateTime(event.getLong("date"));
+                                EventCycle cycle = new EventCycle(0, cycleHours, cycleDays, cycleMonths, cycleYears);
+
+                                Event eventForList = new Event(name, creator, description, date, cycle, ponctual);
+                                eventList.add(eventForList);
+                            }
+                            eventsCache = eventList;
+
+                            EventAdapter eventListAdapter = new EventAdapter(context, eventList);
+                            ((MyEvents)context).setListAdapter(eventListAdapter);
+
+                        }
+
+                        TextView loadingText = ((MyEvents)context).findViewById(R.id.LoadText);
+                        loadingText.setVisibility(View.INVISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -127,7 +185,7 @@ public class APIEvents extends APIRequester {
         contentNode.put("name", event.getName());
         contentNode.put("description", event.getDescription());
         contentNode.put("accountEmail", event.getLinkedAccount().getIdentifier());
-        contentNode.put("date", DateToTimestamp(event.getSimpleDate()));
+        contentNode.put("date", TimeUnit.MILLISECONDS.toSeconds(event.getDate().getMillis()));
         contentNode.put("isPonctual", event.getCycleState());
 
         contentSubNode.put("minutes", event.getCycle().getMinutes());
@@ -140,19 +198,5 @@ public class APIEvents extends APIRequester {
         eventNode.put("event", contentNode);
 
         return eventNode;
-    }
-
-    private long DateToTimestamp(String rawDate){
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = null;
-        try {
-            date = (Date)formatter.parse(rawDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long output=date.getTime()/1000L;
-        String str=Long.toString(output);
-        long timestamp = Long.parseLong(str) * 1000;
-        return timestamp;
     }
 }

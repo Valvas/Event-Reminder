@@ -7,39 +7,25 @@ import java.io.Serializable;
 
 public class Account implements Serializable
 {
-    //region Instance
-    private static Account Instance = null;
-
-    public static Account getInsance(){
-        if(Instance != null)
-            return null;
-        return Instance;
-    }
-
-    public static Account CreateInstance(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount) throws IllegalAccessException {
-        if(Instance != null)
-            throw new IllegalAccessException("An instance is already setting up.");
-
-        Instance = new Account(lastname, firstname, identifier, googleAccount);
-        return Instance;
-    }
-    //endregion
-
     //region Attributes
     private String lastName;
     private String firstname;
     private String identifier;
     private GoogleSignInAccount googleAccount;
+    private String token;
     //endregion
 
     //region Contructor
-    public Account(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount)
+    public Account(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount, String token)
     {
         this.lastName = lastname;
         this.firstname = firstname;
         this.identifier = identifier;
         this.googleAccount = googleAccount;
+        this.token = token;
     }
+
+    public Account(){}
     //endregion
 
     //region Getters
@@ -56,6 +42,8 @@ public class Account implements Serializable
     public String getIdentifier() { return this.identifier; }
 
     public GoogleSignInAccount getGoogleAccount() { return this.googleAccount; }
+
+    public String getToken() { return this.token; }
     //endregion
 
     //region Override methods

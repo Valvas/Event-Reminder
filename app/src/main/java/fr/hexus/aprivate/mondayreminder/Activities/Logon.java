@@ -33,7 +33,7 @@ public class Logon extends Activity
         APIUser UserEndAPI = new APIUser();
         
         try {
-            UserEndAPI.Create(this, "nicolas.demoncourt@gmail.com", "Nicolas", "Cornu");
+            UserEndAPI.Login(this, "nicolas.demoncourt@gmail.com", "Nicolas", "Cornu");
         } catch (Exception exp){
             System.out.println(exp.getMessage());
         }

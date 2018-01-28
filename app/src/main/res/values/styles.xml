@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Material" parent="android:Theme.Material.Light">
+
+    </style>
+
+    <style name="SpinnerHohoLight" parent="android:Widget.Holo.Light.Spinner">
+
+    </style>
+
+    <style name="zzs" parent="android:Widget.Spinner.DropDown">
+
+    </style>
+
 </resources>

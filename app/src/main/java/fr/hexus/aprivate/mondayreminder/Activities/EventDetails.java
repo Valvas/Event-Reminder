@@ -1,5 +1,6 @@
 package fr.hexus.aprivate.mondayreminder.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +13,10 @@ import fr.hexus.aprivate.mondayreminder.ApiQueries;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
-public class EventDetails extends AppCompatActivity
+public class EventDetails extends Activity
 {
     @Override
     @SuppressWarnings("deprecation")
@@ -24,9 +26,8 @@ public class EventDetails extends AppCompatActivity
         setContentView(R.layout.activity_event_view);
 
         Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
-        Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
 
-        if(account.equals(event.getLinkedAccount()))
+        if(GlobalVariables.CurrentAccount.getIdentifier().equals(event.getCreator()))
         {
             //ADD A BUTTON TO CANCEL THE EVENT
         }
@@ -35,7 +36,7 @@ public class EventDetails extends AppCompatActivity
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
         {
-            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, account))
+            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, GlobalVariables.CurrentAccount))
             {
                 case 0:
                     participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FFFF00'>En attente</font>", Html.FROM_HTML_MODE_LEGACY));
@@ -51,7 +52,7 @@ public class EventDetails extends AppCompatActivity
 
         else
         {
-            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, account))
+            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, GlobalVariables.CurrentAccount))
             {
                 case 0:
                     participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#888800'>En attente</font>"));
@@ -75,7 +76,7 @@ public class EventDetails extends AppCompatActivity
         eventDate.setText(event.getPrettyDate());
         eventCycle.setText(event.getCycleDetails());
 
-        if(account.equals(event.getLinkedAccount())){ eventCreator.setText("Créé par : Vous"); }
+        if(GlobalVariables.CurrentAccount.getIdentifier().equals(event.getCreator())){ eventCreator.setText("Créé par : Vous"); }
         else{ eventCreator.setText("Créé par : " + event.getCreator()); }
 
         eventDescription.setText("Description : \n\n" + event.getDescription());

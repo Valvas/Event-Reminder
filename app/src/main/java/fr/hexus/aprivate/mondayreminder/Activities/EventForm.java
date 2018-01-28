@@ -1,10 +1,10 @@
 package fr.hexus.aprivate.mondayreminder.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,20 +17,26 @@ import android.widget.TextView;
 
 import com.google.common.primitives.Ints;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
-public class EventForm extends AppCompatActivity
+public class EventForm extends Activity
 {
-    private Calendar eventPlanning = Calendar.getInstance();
+    private DateTime eventPlanning = new DateTime(DateTimeZone.getDefault());
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -38,6 +44,8 @@ public class EventForm extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event_form);
+
+        DateTimeZone eee = DateTimeZone.getDefault();
 
         RegisterEventsControls();
     }
@@ -55,7 +63,7 @@ public class EventForm extends AppCompatActivity
         //region Get the inputs
         String title = titleEvent.getText().toString();
         String description = descEvent.getText().toString();
-        boolean repetition = switchButton.isChecked();
+        boolean repetition = !switchButton.isChecked();
         EventCycle cycle = null;
         if(repetition){
             int minutes = (int) ((Spinner) findViewById(R.id.SpinMinutes)).getSelectedItem();
@@ -65,9 +73,10 @@ public class EventForm extends AppCompatActivity
             int annee = (int) ((Spinner) findViewById(R.id.SpinAnnee)).getSelectedItem();
 
             cycle = new EventCycle(minutes, heures, jours, mois, annee);
+        } else {
+            cycle = new EventCycle(0, 0, 0, 0, 0);
         }
-        String dateString = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss").format(eventPlanning.getTime());
-        Account account = (Account) getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT));
+        Account account = GlobalVariables.CurrentAccount;
         //endregion
 
         //region Send data to API and close activity
@@ -116,34 +125,34 @@ public class EventForm extends AppCompatActivity
 
         // What TimePicker do when I click on OK
         TimePickerDialog.OnTimeSetListener time = (timePicker, i, i1) -> {
-            eventPlanning.set(Calendar.HOUR, i);
-            eventPlanning.set(Calendar.MINUTE, i1);
-            eventPlanning.set(Calendar.SECOND, 0);
+            eventPlanning = eventPlanning.hourOfDay().setCopy(i);
+            eventPlanning = eventPlanning.minuteOfHour().setCopy(i1);
+            eventPlanning = eventPlanning.secondOfMinute().setCopy(0);
 
-            String timeString = new SimpleDateFormat("hh:mm").format(eventPlanning.getTime());
+            String timeString = eventPlanning.getHourOfDay() + ":" + eventPlanning.getMinuteOfHour();
             dateAndTimeField.setText(dateAndTimeField.getText() + " à " + timeString);
         };
 
         // What DatePicker do when i click OK
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
             // Setting the calendar date out of selection
-            eventPlanning.set(Calendar.YEAR, year);
-            eventPlanning.set(Calendar.MONTH, monthOfYear);
-            eventPlanning.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            eventPlanning = eventPlanning.year().setCopy(year);
+            eventPlanning = eventPlanning.monthOfYear().setCopy(monthOfYear);
+            eventPlanning = eventPlanning.dayOfMonth().setCopy(dayOfMonth);
 
             // Render the date on the UI
-            String dateString = new SimpleDateFormat("dd/MM/yyyy").format(eventPlanning.getTime());
+            String dateString = eventPlanning.getDayOfMonth() + "/" + eventPlanning.getMonthOfYear() + "/" + eventPlanning.getYear();
             dateAndTimeField.setText(dateString);
 
             // Show TimePicker after I selected the date
-            new TimePickerDialog(EventForm.this, time, eventPlanning.get(Calendar.HOUR), eventPlanning.get(Calendar.MINUTE), true).show();
+            new TimePickerDialog(EventForm.this, time, eventPlanning.getHourOfDay(), eventPlanning.getMinuteOfHour(), true).show();
         };
 
         // Show DatePicker when I click on the EditText
         dateAndTimeField.setOnClickListener(v -> {
             new DatePickerDialog(EventForm.this, date, eventPlanning
-                    .get(Calendar.YEAR), eventPlanning.get(Calendar.MONTH),
-                    eventPlanning.get(Calendar.DAY_OF_MONTH)).show();
+                    .getYear(), eventPlanning.getMonthOfYear(),
+                    eventPlanning.getDayOfMonth()).show();
 
 
         });
@@ -183,12 +192,22 @@ public class EventForm extends AppCompatActivity
             }
         });
 
+        List<Integer> rrrr = new ArrayList<Integer>();
+        rrrr.add(1);
+        //Ints.asList(getResources().getIntArray(R.array.hours_array))
+        //Ints.asList(getResources().getIntArray(R.array.minutes_array))
         // Setup the adapters
-        ArrayAdapter<Integer> adapterMinutes = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.minutes_array)));
-        ArrayAdapter<Integer> adapterHours = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.hours_array)));
-        ArrayAdapter<Integer> adapterDays = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.days_array)));
-        ArrayAdapter<Integer> adapterMonths = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.months_array)));
-        ArrayAdapter<Integer> adapterYears = new ArrayAdapter<Integer>(EventForm.this, R.layout.support_simple_spinner_dropdown_item, Ints.asList(getResources().getIntArray(R.array.years_array)));
+        ArrayAdapter<Integer> adapterMinutes = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.minutes_array)));
+        ArrayAdapter<Integer> adapterHours = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.hours_array)));
+        ArrayAdapter<Integer> adapterDays = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.days_array)));
+        ArrayAdapter<Integer> adapterMonths = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.months_array)));
+        ArrayAdapter<Integer> adapterYears = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.years_array)));
+        // Setup the dropdown
+        adapterMinutes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterHours.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterDays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterMonths.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterYears.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Set the adapters in spinners
         minutes.setAdapter(adapterMinutes);
         heures.setAdapter(adapterHours);

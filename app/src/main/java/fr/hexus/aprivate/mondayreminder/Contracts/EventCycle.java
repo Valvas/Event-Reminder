@@ -1,10 +1,12 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
+import java.io.Serializable;
+
 /**
  * Created by nicolas on 19/01/18.
  */
 
-public class EventCycle {
+public class EventCycle implements Serializable{
 
     private int minutes;
     private int heures;

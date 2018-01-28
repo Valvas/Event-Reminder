@@ -38,9 +38,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import fr.hexus.aprivate.mondayreminder.Contracts.Account;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 
 /**
  * Created by Nicolas on 19/12/2017.
@@ -75,9 +79,10 @@ abstract public class APIRequester {
             ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = super.getHeaders();
-                    //params.put("Authorization", "TOFILL");
-                    return super.getHeaders();
+                    Map<String, String> params = new HashMap<>();
+                    if(GlobalVariables.CurrentAccount != null)
+                        params.put("Authorization", GlobalVariables.CurrentAccount.getToken());
+                    return params;
                 }
             };
 

@@ -42,11 +42,6 @@ public class APIParticipations extends APIRequester {
         }
     }
 
-    // To debate
-    public void AddParticipant(final Context context, final String[] participantsID, final int eventID){
-        throw new UnsupportedOperationException("API has no such operation yet.");
-    }
-
     public void UpdateStatus(final Context context, final String participantID, final int eventID, final int status) throws JSONException {
         JSONObject updateNode = new JSONObject();
         JSONObject content = new JSONObject();
@@ -93,11 +88,6 @@ public class APIParticipations extends APIRequester {
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    // To debate
-    public void RemoveParticipant(final Context context, final String[] participantsID, final int eventID){
-        throw new UnsupportedOperationException("API has no such operation yet.");
     }
 
     public void GetParticipants(final Context context, final int eventID) throws JSONException {

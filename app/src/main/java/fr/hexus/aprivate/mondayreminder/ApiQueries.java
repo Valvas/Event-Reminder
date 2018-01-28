@@ -35,8 +35,8 @@ public class ApiQueries
 
     public List<Participation> getParticipantsToEvent(Event event)
     {
-        Account account1 = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com", null);
-        Account account2 = new Account("Cornu", "Nicolas", "nicolas.cornu@gmail.com", null);
+        Account account1 = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com", null, null);
+        Account account2 = new Account("Cornu", "Nicolas", "nicolas.cornu@gmail.com", null, null);
 
         Participation participation1 = new Participation(account1, event, ParticipatingStatus.WAIT);
         Participation participation2 = new Participation(account2, event, ParticipatingStatus.YES);

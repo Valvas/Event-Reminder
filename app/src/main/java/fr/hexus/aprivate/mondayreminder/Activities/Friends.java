@@ -1,5 +1,6 @@
 package fr.hexus.aprivate.mondayreminder.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.view.View;
 import fr.hexus.aprivate.mondayreminder.Activities.Menu;
 import fr.hexus.aprivate.mondayreminder.R;
 
-public class Friends extends AppCompatActivity
+public class Friends extends Activity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
