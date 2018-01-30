@@ -3,8 +3,6 @@ package fr.hexus.aprivate.mondayreminder.Contracts;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import fr.hexus.aprivate.mondayreminder.Enums.Months;
@@ -77,7 +75,7 @@ public class Event implements Serializable
     public String getCreator(){
         if(this.creator == null)
             return this.idCreator;
-        return this.creator.getFirstname() + " " + this.creator.getLastName();
+        return this.creator.getFirstName() + " " + this.creator.getLastName();
     }
 
     //region Date Getters
@@ -172,7 +170,7 @@ public class Event implements Serializable
                 + "\nEvent cycle : "
                 + this.cycle.toString()
                 + "\nEvent creator : "
-                + this.creator.getFirstname()
+                + this.creator.getFirstName()
                 + " "
                 + this.creator.getLastName()
                 + "\nEvent description : "

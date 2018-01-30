@@ -18,7 +18,7 @@ public class Friend
     public String getFriendLastname(){ return this.friendLastname; }
     public String getFriendFirstname(){ return this.friendFirstname; }
     public String getFriendIdentifier(){ return this.friendIdentifier; }
-    public String getFriendOwner(){ return this.friendOwner.getFirstname() + " " + this.friendOwner.getLastName(); }
+    public String getFriendOwner(){ return this.friendOwner.getFirstName() + " " + this.friendOwner.getLastName(); }
 
     public String toString()
     {

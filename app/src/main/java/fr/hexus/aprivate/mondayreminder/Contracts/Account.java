@@ -1,27 +1,25 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-
+import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 
 public class Account implements Serializable
 {
     //region Attributes
     private String lastName;
-    private String firstname;
+    private String firstName;
     private String identifier;
-    private GoogleSignInAccount googleAccount;
+    private FirebaseAuth firebaseAuth;
     private String token;
     //endregion
 
     //region Contructor
-    public Account(String lastname, String firstname, String identifier, GoogleSignInAccount googleAccount, String token)
+    public Account(String lastname, String firstname, String identifier, FirebaseAuth firebaseAuth, String token)
     {
         this.lastName = lastname;
-        this.firstname = firstname;
+        this.firstName = firstname;
         this.identifier = identifier;
-        this.googleAccount = googleAccount;
+        this.firebaseAuth = firebaseAuth;
         this.token = token;
     }
 
@@ -34,14 +32,14 @@ public class Account implements Serializable
         return this.lastName;
     }
 
-    public String getFirstname()
+    public String getFirstName()
     {
-        return this.firstname;
+        return this.firstName;
     }
 
     public String getIdentifier() { return this.identifier; }
 
-    public GoogleSignInAccount getGoogleAccount() { return this.googleAccount; }
+    public FirebaseAuth getFirebaseAuth() { return this.firebaseAuth; }
 
     public String getToken() { return this.token; }
     //endregion
@@ -55,7 +53,7 @@ public class Account implements Serializable
     public String toString() {
         return "Account{" +
                 "lastName='" + lastName + '\'' +
-                ", firstname='" + firstname + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", identifier='" + identifier + '\'' +
                 '}';
     }

@@ -64,18 +64,8 @@ abstract public class APIRequester {
             com.android.volley.RequestQueue queue = Volley.newRequestQueue(caller);
 
             final JsonObjectRequest request = new JsonObjectRequest(methodRequest, URL, content,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        callback.onSuccessResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onErrorResponse(error);
-                    }
-                }
+                    callback::onSuccessResponse,
+                    callback::onErrorResponse
             ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
@@ -117,7 +107,7 @@ abstract public class APIRequester {
      * Transform a String to Date Object
      * @param date If null create a new List, list of body HTTP Request data
      */
-    public java.util.Date getDateFrommString(String date) throws Exception{
+    public java.util.Date getDateFromString(String date) throws Exception{
         DateFormat format = new SimpleDateFormat("yyyy-M-dd", Locale.FRANCE);
         return format.parse(date.substring(0, 10));
     }

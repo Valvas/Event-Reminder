@@ -31,4 +31,5 @@
     <string name="add_friend_button">Ajouter</string>
     <string name="invitation_list_label">Liste des invitations :</string>
     <string name="open_friend_list_button">Liste de mes amis</string>
+
 </resources>
