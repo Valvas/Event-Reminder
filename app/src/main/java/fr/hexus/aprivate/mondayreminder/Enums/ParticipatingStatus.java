@@ -33,4 +33,14 @@ public enum ParticipatingStatus {
     }
 
     public int getValue() { return value; }
+
+    public static ParticipatingStatus getStatus(int status){
+        switch (status){
+            case 0: return WAIT;
+            case 1: return NO;
+            case 2: return YES;
+        }
+        return null;
+    }
+
 }

@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import fr.hexus.aprivate.mondayreminder.API.APICallback;
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.EventAdapter;
+import fr.hexus.aprivate.mondayreminder.Activities.EventDetails;
 import fr.hexus.aprivate.mondayreminder.Activities.MyEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
@@ -39,7 +40,18 @@ import fr.hexus.aprivate.mondayreminder.R;
 public class APIEvents extends APIRequester {
 
     private final String route = this.baseURL + "/events/";
-    private List<Event> eventsCache;
+    private static List<Event> eventsCache;
+
+    public static Event GetEventFromCache(int eventId){
+        final Event[] event = {null};
+
+        eventsCache.forEach((v) -> {
+            if(eventId == v.getId()){
+                event[0] = v;
+            }
+        });
+        return event[0];
+    }
 
     public void Get(final Context context, final String requesterEmail) {
         try{
@@ -70,6 +82,7 @@ public class APIEvents extends APIRequester {
                             while(keys.hasNext()){
                                 JSONObject event = events.getJSONObject((String)keys.next());
 
+                                int id = event.getInt("id");
                                 String name = event.getString("name");
                                 String description = event.getString("description");
                                 String creator = event.getString("account_email");
@@ -81,7 +94,7 @@ public class APIEvents extends APIRequester {
                                 DateTime date = new DateTime(event.getLong("date"));
                                 EventCycle cycle = new EventCycle(0, cycleHours, cycleDays, cycleMonths, cycleYears);
 
-                                Event eventForList = new Event(name, creator, description, date, cycle, ponctual);
+                                Event eventForList = new Event(name, creator, description, date, cycle, ponctual, id);
                                 eventList.add(eventForList);
                             }
                             eventsCache = eventList;
@@ -155,16 +168,23 @@ public class APIEvents extends APIRequester {
         }
     }
 
-    public void Delete(final Context context, final int idEvent) throws JSONException {
-        JSONObject eventNode = new JSONObject();
-
-        eventNode.put("event", idEvent);
-
+    public void Delete(final Context context, final int idEvent) {
         try{
+            JSONObject eventNode = new JSONObject();
+
+            eventNode.put("event", idEvent);
+
             this.readFromUrl(this.route + "delete-event", eventNode, Request.Method.DELETE, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
+                    try {
+                        if(result.getBoolean("result")){
+                            ((EventDetails)context).getBackToTheList();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -172,8 +192,8 @@ public class APIEvents extends APIRequester {
                     // Handle error
                 }
             });
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception exp){
+
         }
     }
 

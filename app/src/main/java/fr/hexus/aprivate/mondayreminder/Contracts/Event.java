@@ -12,6 +12,7 @@ import fr.hexus.aprivate.mondayreminder.Enums.Months;
 public class Event implements Serializable
 {
     //region Attributes
+    private int id;
     /**
      * Name of the event
      */
@@ -53,7 +54,7 @@ public class Event implements Serializable
         this.description = description;
     }
 
-    public Event(String name, String creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
+    public Event(String name, String creator, String description, DateTime date, EventCycle cycle, boolean ponctual, int id)
     {
         this.date = date;
         this.name = name;
@@ -65,6 +66,8 @@ public class Event implements Serializable
     //endregion
 
     //region Getters
+    public int getId(){ return this.id; }
+
     public String getName(){ return this.name; }
 
     public String getDescription(){ return this.description; }

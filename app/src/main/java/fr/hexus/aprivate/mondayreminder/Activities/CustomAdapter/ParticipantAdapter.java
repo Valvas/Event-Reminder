@@ -52,4 +52,6 @@ public class ParticipantAdapter extends ArrayAdapter<Participation>
 
         return row;
     }
+
+
 }

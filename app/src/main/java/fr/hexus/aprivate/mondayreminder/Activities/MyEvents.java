@@ -57,4 +57,10 @@ public class MyEvents extends ListActivity
 
         startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new APIEvents().Get(this, GlobalVariables.CurrentAccount.getIdentifier());
+    }
 }

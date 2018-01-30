@@ -4,11 +4,11 @@ import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
 
 public class Participation
 {
-    private ParticipatingStatus participatingStatus;
-    private Event participatedEvent;
-    private Account participatingAccount;
+    public ParticipatingStatus participatingStatus;
+    public Event participatedEvent;
+    public LiteAccount participatingAccount;
 
-    public Participation(Account account, Event event, ParticipatingStatus status)
+    public Participation(LiteAccount account, Event event, ParticipatingStatus status)
     {
         this.participatedEvent = event;
         this.participatingStatus = status;
