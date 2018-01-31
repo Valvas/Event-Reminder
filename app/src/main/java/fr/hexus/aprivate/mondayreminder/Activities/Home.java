@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+
 import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
 public class Home extends Activity
 {
+    private GoogleSignInClient googleSignInClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,10 +26,14 @@ public class Home extends Activity
         welcomeMessage.setText(welcomeMessage.getText() + " " + GlobalVariables.CurrentAccount.getFirstName());
     }
 
+    /**
+     * Starts the Menu activity
+     * @param view View
+     */
     public void openMenu(View view)
     {
-        Intent intent = new Intent(this, Menu.class);
+        Intent menuIntent = new Intent(this, Menu.class);
 
-        startActivity(intent);
+        startActivity(menuIntent);
     }
 }

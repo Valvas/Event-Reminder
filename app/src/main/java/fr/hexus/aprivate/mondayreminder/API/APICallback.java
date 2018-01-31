@@ -15,6 +15,4 @@ public interface APICallback {
 
     // Handling of error request and action on the activity
     void onErrorResponse(VolleyError error);
-
-    // Can have more stuffs in the future
 }

@@ -59,7 +59,7 @@ abstract public class APIRequester {
      * @param URL API Route URL
      * @param content List for body HTTP Request
      */
-    public void readFromUrl(String URL, final JSONObject content, int methodRequest, Context caller, final APICallback callback) throws Exception{
+    protected void readFromUrl(String URL, final JSONObject content, int methodRequest, Context caller, final APICallback callback) throws Exception{
         try {
             com.android.volley.RequestQueue queue = Volley.newRequestQueue(caller);
 
@@ -77,7 +77,7 @@ abstract public class APIRequester {
             };
 
             queue.add(request);
-            queue.start();
+            //queue.start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,7 +95,7 @@ abstract public class APIRequester {
         if (listArguments == null && contentPOST == null) return null;
         if (contentPOST == null || contentName == null) return listArguments;
         if (listArguments == null) {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair(contentName, contentPOST));
             return params;
         }

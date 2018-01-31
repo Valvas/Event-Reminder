@@ -1,6 +1,5 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
-import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 
 public class Account implements Serializable
@@ -9,17 +8,15 @@ public class Account implements Serializable
     private String lastName;
     private String firstName;
     private String identifier;
-    private FirebaseAuth firebaseAuth;
     private String token;
     //endregion
 
     //region Contructor
-    public Account(String lastname, String firstname, String identifier, FirebaseAuth firebaseAuth, String token)
+    public Account(String lastname, String firstname, String identifier, String token)
     {
         this.lastName = lastname;
         this.firstName = firstname;
         this.identifier = identifier;
-        this.firebaseAuth = firebaseAuth;
         this.token = token;
     }
 
@@ -38,8 +35,6 @@ public class Account implements Serializable
     }
 
     public String getIdentifier() { return this.identifier; }
-
-    public FirebaseAuth getFirebaseAuth() { return this.firebaseAuth; }
 
     public String getToken() { return this.token; }
     //endregion

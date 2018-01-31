@@ -6,6 +6,7 @@ import java.util.List;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.Friend;
+import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
 import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
 import fr.hexus.aprivate.mondayreminder.Enums.ParticipatingStatus;
 
@@ -35,8 +36,8 @@ public class ApiQueries
 
     public List<Participation> getParticipantsToEvent(Event event)
     {
-        Account account1 = new Account("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com", null, null);
-        Account account2 = new Account("Cornu", "Nicolas", "nicolas.cornu@gmail.com", null, null);
+        LiteAccount account1 = new LiteAccount("Lefebvre", "Olivier", "olivier.lefebvre@gmail.com");
+        LiteAccount account2 = new LiteAccount("Cornu", "Nicolas", "nicolas.cornu@gmail.com");
 
         Participation participation1 = new Participation(account1, event, ParticipatingStatus.WAIT);
         Participation participation2 = new Participation(account2, event, ParticipatingStatus.YES);
