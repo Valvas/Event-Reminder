@@ -105,7 +105,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
             if(currentUser != null && currentUser.getDisplayName() != null){
                 displayName = currentUser.getDisplayName().split(" ", 2);
                 String firstName = displayName[0];
-                String lastName = displayName.length > 0 ? displayName[1] : "";
+                String lastName = displayName.length > 1 ? displayName[1] : "";
 
                 UserEndAPI.Login(this, currentUser.getEmail(), firstName, lastName);
 
