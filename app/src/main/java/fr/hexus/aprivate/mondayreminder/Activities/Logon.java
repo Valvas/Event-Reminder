@@ -9,6 +9,7 @@ import android.util.Log;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
+import fr.hexus.aprivate.mondayreminder.API.Firebase.CustomFirebaseInstanceIdService;
 import fr.hexus.aprivate.mondayreminder.R;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -134,6 +135,9 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
     private void firebaseAuthWithGoogle(GoogleSignInAccount googleSignInAccount) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + googleSignInAccount.getId());
 
+        //CustomFirebaseInstanceIdService instanceIdService = new CustomFirebaseInstanceIdService();
+        //instanceIdService.onTokenRefresh();
+
         AuthCredential credential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
 
         firebaseAuth.signInWithCredential(credential)
@@ -166,9 +170,6 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
      * Sign out from Firebase and from Google Sign In Client
      */
     private void signOut(){
-        APIUser apiUser = new APIUser();
-
-
         // Firebase sign out
         FirebaseAuth.getInstance().signOut();
 

@@ -25,19 +25,21 @@ public class EventAdapter extends ArrayAdapter<Event>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View row = inflater.inflate(R.layout.event_list, null);
+        if(convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.event_list, parent, false);
+        }
 
         Event currentEvent = getItem(position);
 
-        TextView eventName = row.findViewById(R.id.eventName);
-        TextView eventDate = row.findViewById(R.id.eventDate);
-        TextView eventCreator = row.findViewById(R.id.eventCreator);
+        TextView eventName = convertView.findViewById(R.id.eventName);
+        TextView eventDate = convertView.findViewById(R.id.eventDate);
+        TextView eventCreator = convertView.findViewById(R.id.eventCreator);
 
         eventName.setText(currentEvent.getName());
         eventDate.setText(currentEvent.getSimpleDate());
         eventCreator.setText(currentEvent.getCreator());
 
-        return row;
+        return convertView;
     }
 }

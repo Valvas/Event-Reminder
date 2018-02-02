@@ -39,7 +39,7 @@ import fr.hexus.aprivate.mondayreminder.R;
 
 public class APIEvents extends APIRequester {
 
-    private final String route = this.baseURL + "/events/";
+    private final String route = baseURL + "/events/";
     private static List<Event> eventsCache;
 
     public static Event GetEventFromCache(int eventId){
@@ -73,7 +73,7 @@ public class APIEvents extends APIRequester {
                     // Handle response from server
                     try {
                         List<Event> eventList = new ArrayList<>();
-                        if(result.getBoolean("result") == true){
+                        if(result.getBoolean("result")){
 
 
                             JSONObject events = result.getJSONObject("events");
@@ -114,7 +114,7 @@ public class APIEvents extends APIRequester {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT);
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e){
@@ -138,7 +138,10 @@ public class APIEvents extends APIRequester {
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    String test = new String(error.networkResponse.data).toString();
+
+                    if(error.networkResponse == null) return;
+
+                    String test = new String(error.networkResponse.data);
                     Log.i("response", test);
 
                 }

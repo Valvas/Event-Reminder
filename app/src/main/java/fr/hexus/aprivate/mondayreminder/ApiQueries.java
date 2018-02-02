@@ -23,8 +23,8 @@ public class ApiQueries
 
     public List<Friend> getMyFriends(Account account)
     {
-        Friend friend1 = new Friend("Cornu", "Nicolas", "nicolas.cornu@gmail.com", account);
-        Friend friend2 = new Friend("Valvas", "Vincent", "vincent.valvas@gmail.com", account);
+        Friend friend1 = new Friend(account, "Cornu", "Nicolas", "nicolas.cornu@gmail.com");
+        Friend friend2 = new Friend(account, "Valvas", "Vincent", "vincent.valvas@gmail.com");
 
         List<Friend> friendList = new ArrayList<>();
 

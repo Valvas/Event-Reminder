@@ -48,12 +48,12 @@ public class APIUser extends APIRequester {
         try {
             readFromUrl(route + "create-account", accountNode, Request.Method.POST, context, new APICallback() {
                 @Override
-                public void onSuccessResponse(JSONObject apiResult) {
+                public void onSuccessResponse(JSONObject result) {
                     try {
-                        if(apiResult.getBoolean("result")){
+                        if(result.getBoolean("result")){
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
-                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, apiResult.getString("token"));
+                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, result.getString("token"));
                             context.startActivity(intent);
                         }
                     } catch (Exception e) {
@@ -64,16 +64,14 @@ public class APIUser extends APIRequester {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // Handle the error with a Toast or MessageBox to show on UI
-                    Log.i(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
-                    ((Logon)context).showError("Error : " + error.getMessage());
+                    Log.e(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
+                    ((Logon)context).showError("Error: " + error.getMessage());
 
                     if(error.networkResponse == null) return;
 
                     String response = new String(error.networkResponse.data);
                     Log.i("response", response);
                 }
-
-
             });
         } catch (Exception e) {
             throw new JSONException(e.getMessage());
@@ -88,45 +86,13 @@ public class APIUser extends APIRequester {
      * @param lastName Lastname of the currently connected user
      * @throws JSONException JSONException describing the anomaly within the JSON object sent
      */
-    public void refreshUserToken(final Context context, final String email, final String firstName, final String lastName) throws JSONException{
+    public void refreshUserToken(final Context context, final String email, final String firstName, final String lastName, final String token) throws JSONException{
         JSONObject contentNode = new JSONObject();
 
         contentNode.put("email", email);
         contentNode.put("firstname", firstName);
         contentNode.put("lastname", lastName);
-        contentNode.put("token", FirebaseInstanceId.getInstance().getToken());
-
-        try {
-            /*readFromUrl(route + "create-account", contentNode, Request.Method.POST, context, new APICallback() {
-                @Override
-                public void onSuccessResponse(JSONObject resultapi) {
-                    try {
-                        if(resultapi.getBoolean("result")){
-                            ((Logon)context).finishAffinity();
-                            Intent intent = new Intent(context, Home.class);
-                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, resultapi.getString("token"));
-                            context.startActivity(intent);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // Handle the error with a Toast or MessageBox to show on UI
-                    Log.i(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
-                    ((Logon)context).showError("Error : " + error.getMessage());
-
-                    if(error.networkResponse == null) return;
-
-                    String response = new String(error.networkResponse.data);
-                    Log.i("response", response);
-                }
-            });*/
-        } catch (Exception e) {
-            throw new JSONException(e.getMessage());
-        }
+        contentNode.put("token", token);
     }
 
     /**

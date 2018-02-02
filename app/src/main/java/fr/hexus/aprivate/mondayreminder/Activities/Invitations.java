@@ -14,19 +14,19 @@ import org.json.JSONException;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIFriends;
 import fr.hexus.aprivate.mondayreminder.R;
 
-public class Friends extends ListActivity
-{
+
+public class Invitations extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_home);
+        setContentView(R.layout.activity_invitations);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        fillFriendsList();
+        fillInvitationsList();
     }
 
     public void startMenuActivity(View view)
@@ -38,46 +38,36 @@ public class Friends extends ListActivity
         startActivity(intent);
     }
 
-    public void startInvitationActivity(View view){
-        Intent intent = new Intent(this, Invitations.class);
+    public void startFriendsActivity(View view)
+    {
+        Intent intent = new Intent(this, Friends.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
 
         startActivity(intent);
     }
 
-    public void addFriend(View view)
-    {
+    public void denyInvitation(View view){
         try {
-            String requesterEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            EditText receiverEmailInput = findViewById(R.id.friendEmailInput);
-            String receiverEmail = String.valueOf(receiverEmailInput.getText());
-
-            new APIFriends().Add(this, requesterEmail, receiverEmail);
-            fillFriendsList();
+            Log.i("OK", "It works!");
         } catch (Exception ex){
-            Log.e("addFriend", "Error while adding friend.");
+            Log.e("denyInvitation", "Error while denying an invitation.");
         }
     }
 
-    public void deleteFriend(View view){
+    public void acceptInvitation(View view){
         try {
-            String requesterEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            EditText receiverEmailInput = findViewById(R.id.friendEmailInput);
-            String receiverEmail = String.valueOf(receiverEmailInput.getText());
-
-            new APIFriends().Delete(this, requesterEmail, receiverEmail);
-            fillFriendsList();
+            Log.i("OK", "It works!");
         } catch (Exception ex){
-            Log.e("deleteFriend", "Error while deleting a friend.");
+            Log.e("acceptInvitation", "Error while accepting an invitation.");
         }
     }
 
-    public void fillFriendsList(){
+    public void fillInvitationsList(){
         String requesterEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         try {
-            new APIFriends().getMyFriends(this, requesterEmail);
+            new APIFriends().getMyInvitations(this, requesterEmail);
         } catch (JSONException e) {
             Log.e("fillInvitationsList()", e.getMessage());
         }

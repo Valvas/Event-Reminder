@@ -18,7 +18,6 @@ import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
 public class CustomFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
     private static final String TAG = CustomFirebaseInstanceIdService.class.getSimpleName();
-    private FirebaseAuth firebaseAuth;
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -54,14 +53,14 @@ public class CustomFirebaseInstanceIdService extends FirebaseInstanceIdService {
         if(currentUser != null && currentUser.getDisplayName() != null){
             displayName = currentUser.getDisplayName().split(" ", 2);
             firstName = displayName[0];
-            lastName = displayName.length > 0 ? displayName[1] : "";
+            lastName = displayName.length > 1 ? displayName[1] : "";
         }
 
         APIUser apiUser = new APIUser();
         try {
-            apiUser.refreshUserToken(this, currentUser.getEmail(), firstName, lastName);
+            apiUser.refreshUserToken(this, currentUser.getEmail(), firstName, lastName, token);
         } catch (JSONException e) {
-            Log.e("sendRegistrationToServer", e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
     }
 }

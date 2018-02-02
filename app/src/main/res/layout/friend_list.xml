@@ -5,13 +5,19 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/friendName"
+        android:id="@+id/friendEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/friendEmail"
+        android:id="@+id/friendFirstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/friendLastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp" />

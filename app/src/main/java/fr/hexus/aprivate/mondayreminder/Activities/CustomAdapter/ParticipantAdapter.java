@@ -25,13 +25,14 @@ public class ParticipantAdapter extends ArrayAdapter<Participation>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View row = inflater.inflate(R.layout.participant_list, null);
-
+        if(convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.participant_list, parent, false);
+        }
         Participation currentParticipant = getItem(position);
 
-        TextView participantName = row.findViewById(R.id.participantName);
-        TextView participationStatus = row.findViewById(R.id.participationStatus);
+        TextView participantName = convertView.findViewById(R.id.participantName);
+        TextView participationStatus = convertView.findViewById(R.id.participationStatus);
 
         participantName.setText(currentParticipant.getParticipantName());
 
@@ -50,7 +51,7 @@ public class ParticipantAdapter extends ArrayAdapter<Participation>
                 break;
         }
 
-        return row;
+        return convertView;
     }
 
 

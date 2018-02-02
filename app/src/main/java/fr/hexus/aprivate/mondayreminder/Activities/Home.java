@@ -30,7 +30,7 @@ public class Home extends Activity
      * Starts the Menu activity
      * @param view View
      */
-    public void openMenu(View view)
+    public void startMenuActivity(View view)
     {
         Intent menuIntent = new Intent(this, Menu.class);
 
