@@ -115,7 +115,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
 
             Log.e("goToHomePage()", "The current Firebase user is null or invalid.");
         } catch (Exception exp){
-            System.out.println(exp.getMessage());
+            Log.e("goToHomePage", exp.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
      * Shows a Toast error
      * @param text Text to display
      */
-    public void showError(String text){
+    public void makeToast(String text){
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
@@ -146,15 +146,12 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithCredential:success");
 
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-
                     goToHomePage(firebaseAuth);
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
 
-                    Toast.makeText(this, "Login failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Connexion échouée", Toast.LENGTH_SHORT).show();
                 }
-
             });
     }
 

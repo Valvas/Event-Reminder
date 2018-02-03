@@ -70,6 +70,7 @@ abstract public class APIRequester {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
+
                     if(GlobalVariables.CurrentAccount != null)
                         params.put("Authorization", GlobalVariables.CurrentAccount.getToken());
                     return params;
@@ -77,8 +78,6 @@ abstract public class APIRequester {
             };
 
             queue.add(request);
-            //queue.start();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

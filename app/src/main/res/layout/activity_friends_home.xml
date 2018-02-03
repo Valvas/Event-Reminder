@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.363" />
 
-    <Button
+    <!--<Button
         android:id="@+id/deleteFriendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +63,17 @@
         android:layout_marginTop="8dp"
         android:onClick="deleteFriend"
         android:text="@string/delete_friend_button"
+        app:layout_constraintBottom_toTopOf="@+id/friendEmailInput"
+        app:layout_constraintStart_toEndOf="@+id/addFriendButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.363" />-->
+
+    <ImageButton
+        android:id="@+id/refreshFriendsListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="refreshFriendsList"
+        android:src="@android:drawable/stat_notify_sync"
         app:layout_constraintBottom_toTopOf="@+id/friendEmailInput"
         app:layout_constraintStart_toEndOf="@+id/addFriendButton"
         app:layout_constraintTop_toTopOf="parent"

@@ -3,6 +3,7 @@ package fr.hexus.aprivate.mondayreminder.API.APIRequests;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -54,23 +55,23 @@ public class APIUser extends APIRequester {
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
                             GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, result.getString("token"));
+                            ((Logon)context).makeToast("Connexion réussie");
                             context.startActivity(intent);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e("onSuccessResponse:Failure", e.getMessage());
                     }
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // Handle the error with a Toast or MessageBox to show on UI
+                    Toast.makeText(context, "Connexion échouée", Toast.LENGTH_SHORT).show();
                     Log.e(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
-                    ((Logon)context).showError("Error: " + error.getMessage());
 
                     if(error.networkResponse == null) return;
 
-                    String response = new String(error.networkResponse.data);
-                    Log.i("response", response);
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
                 }
             });
         } catch (Exception e) {

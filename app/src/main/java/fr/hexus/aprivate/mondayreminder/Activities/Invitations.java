@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIFriends;
+import fr.hexus.aprivate.mondayreminder.Contracts.Invitation;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
 
@@ -47,27 +51,14 @@ public class Invitations extends ListActivity {
         startActivity(intent);
     }
 
-    public void denyInvitation(View view){
-        try {
-            Log.i("OK", "It works!");
-        } catch (Exception ex){
-            Log.e("denyInvitation", "Error while denying an invitation.");
-        }
-    }
-
-    public void acceptInvitation(View view){
-        try {
-            Log.i("OK", "It works!");
-        } catch (Exception ex){
-            Log.e("acceptInvitation", "Error while accepting an invitation.");
-        }
+    public void refreshInvitationsList(View view){
+        fillInvitationsList();
     }
 
     public void fillInvitationsList(){
-        String requesterEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
         try {
-            new APIFriends().getMyInvitations(this, requesterEmail);
+            new APIFriends().getMyInvitations(
+                    this, GlobalVariables.CurrentAccount.getIdentifier());
         } catch (JSONException e) {
             Log.e("fillInvitationsList()", e.getMessage());
         }
