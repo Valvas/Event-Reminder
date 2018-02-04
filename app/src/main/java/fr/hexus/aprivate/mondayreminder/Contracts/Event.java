@@ -38,23 +38,23 @@ public class Event implements Serializable
     //endregion
 
     //region Constructor
-    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean ponctual, int id)
+    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean isPonctual, int id)
     {
         this.id = id;
         this.date = date;
         this.name = name;
         this.cycle = cycle;
-        this.isPonctual = ponctual;
+        this.isPonctual = isPonctual;
         this.creator = creator;
         this.description = description;
     }
 
-    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
+    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean isPonctual)
     {
         this.date = date;
         this.name = name;
         this.cycle = cycle;
-        this.isPonctual = ponctual;
+        this.isPonctual = isPonctual;
         this.creator = creator;
         this.description = description;
     }
@@ -93,8 +93,7 @@ public class Event implements Serializable
      * @return A string formatted date
      */
     public String getSimpleDate(){
-        String dateString = this.date.toString("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return dateString;
+        return this.date.toString("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     }
 
     public DateTime getDate(){

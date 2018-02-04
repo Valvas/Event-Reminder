@@ -20,11 +20,6 @@ public class MyEvents extends ListActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
-
-        APIEvents apiEvents = new APIEvents();
-
-        apiEvents.Get(this, GlobalVariables.CurrentAccount.getIdentifier());
-
     }
 
     public void openMenu(View view)
@@ -61,6 +56,6 @@ public class MyEvents extends ListActivity
     @Override
     protected void onResume() {
         super.onResume();
-        new APIEvents().Get(this, GlobalVariables.CurrentAccount.getIdentifier());
+        new APIEvents().get(this, GlobalVariables.CurrentAccount.getIdentifier());
     }
 }

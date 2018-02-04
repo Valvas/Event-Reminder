@@ -6,10 +6,10 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -21,14 +21,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIEvents;
-import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
 import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
@@ -46,8 +39,6 @@ public class EventForm extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event_form);
 
-        DateTimeZone eee = DateTimeZone.getDefault();
-
         RegisterEventsControls();
     }
 
@@ -56,16 +47,16 @@ public class EventForm extends Activity
      */
     public void createNewEvent() {
         //region Getting controls
-        EditText titleEvent = (EditText) findViewById(R.id.EditTxtEventName);
-        EditText descEvent = (EditText) findViewById(R.id.EditTxtDescription);
-        Switch switchButton = (Switch) findViewById(R.id.SwtchRepetition);
+        EditText titleEvent = findViewById(R.id.EditTxtEventName);
+        EditText descEvent = findViewById(R.id.EditTxtDescription);
+        Switch switchButton = findViewById(R.id.SwitchRepetition);
         //endregion
 
         //region Get the inputs
         String title = titleEvent.getText().toString();
         String description = descEvent.getText().toString();
         boolean repetition = switchButton.isChecked();
-        EventCycle cycle = null;
+        EventCycle cycle;
         if(repetition){
             int minutes = (int) ((Spinner) findViewById(R.id.SpinMinutes)).getSelectedItem();
             int heures = (int) ((Spinner) findViewById(R.id.SpinHeures)).getSelectedItem();
@@ -82,18 +73,15 @@ public class EventForm extends Activity
         //endregion
 
         //region Send data to API and close activity
-        Event event = new Event(title, account, description, eventPlanning, cycle, repetition);
+        Event event = new Event(title, account, description, eventPlanning, cycle, !repetition);
 
         try {
-            new APIEvents().Create(this, event);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            new APIEvents().create(this, event);
+        } catch (JSONException jsonEx) {
+            Log.e("createNewEvent() Event", jsonEx.getMessage());
         }
         finish();
         //endregion
-
-        //DEBUG LINE
-        System.out.println(event.toString());
     }
 
     /**
@@ -103,24 +91,25 @@ public class EventForm extends Activity
     private void RegisterEventsControls(){
         //region Getting controls
         // General controls
-        EditText dateAndTimeField= (EditText) findViewById(R.id.DateAndTimePicker);
-        EditText titleEvent = (EditText) findViewById(R.id.EditTxtEventName);
-        EditText descEvent = (EditText) findViewById(R.id.EditTxtDescription);
+        EditText dateAndTimeField= findViewById(R.id.DateAndTimePicker);
+        EditText titleEvent = findViewById(R.id.EditTxtEventName);
+        EditText descEvent = findViewById(R.id.EditTxtDescription);
         // Interval controls
-        Switch switchButton = (Switch) findViewById(R.id.SwtchRepetition);
-        TextView textRepetition = (TextView) findViewById(R.id.TxtRepetition);
-        Spinner minutes = (Spinner) findViewById(R.id.SpinMinutes);
-        Spinner heures = (Spinner) findViewById(R.id.SpinHeures);
-        Spinner jours = (Spinner) findViewById(R.id.SpinJours);
-        Spinner mois = (Spinner) findViewById(R.id.SpinMois);
-        Spinner annee = (Spinner) findViewById(R.id.SpinAnnee);
-        TextView txtMinutes = (TextView) findViewById(R.id.TxtMinutes);
-        TextView txtHeures = (TextView) findViewById(R.id.TxtHeures);
-        TextView txtJours = (TextView) findViewById(R.id.TxtJours);
-        TextView txtMois = (TextView) findViewById(R.id.TxtMois);
-        TextView txtAnnee = (TextView) findViewById(R.id.TxtAnnee);
+        Switch switchButton = findViewById(R.id.SwitchRepetition);
+        TextView textRepetition = findViewById(R.id.TxtRepetition);
+        Spinner minute = findViewById(R.id.SpinMinutes);
+        Spinner hour = findViewById(R.id.SpinHeures);
+        Spinner day = findViewById(R.id.SpinJours);
+        Spinner month = findViewById(R.id.SpinMois);
+        Spinner year = findViewById(R.id.SpinAnnee);
+        TextView txtMinute = findViewById(R.id.TxtMinutes);
+        TextView txtHour = findViewById(R.id.TxtHeures);
+        TextView txtDay = findViewById(R.id.TxtJours);
+        TextView txtMonth = findViewById(R.id.TxtMois);
+        TextView txtYear = findViewById(R.id.TxtAnnee);
+
         // Button validation
-        Button addEvent = (Button) findViewById(R.id.ButtonAddEvent);
+        Button addEvent = findViewById(R.id.ButtonAddEvent);
         //endregion
 
         //region Register DatePicker and TimePicker
@@ -132,13 +121,13 @@ public class EventForm extends Activity
             eventPlanning = eventPlanning.secondOfMinute().setCopy(0);
 
             String timeString = eventPlanning.getHourOfDay() + ":" + eventPlanning.getMinuteOfHour();
-            dateAndTimeField.setText(dateAndTimeField.getText() + " à " + timeString);
+            dateAndTimeField.setText(String.format("%s à %s", dateAndTimeField.getText(), timeString));
         };
 
         // What DatePicker do when i click OK
-        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+        DatePickerDialog.OnDateSetListener date = (view, theYear, monthOfYear, dayOfMonth) -> {
             // Setting the calendar date out of selection
-            eventPlanning = eventPlanning.year().setCopy(year);
+            eventPlanning = eventPlanning.year().setCopy(theYear);
             eventPlanning = eventPlanning.monthOfYear().setCopy(monthOfYear);
             eventPlanning = eventPlanning.dayOfMonth().setCopy(dayOfMonth);
 
@@ -155,55 +144,46 @@ public class EventForm extends Activity
             new DatePickerDialog(EventForm.this, date, eventPlanning
                     .getYear(), eventPlanning.getMonthOfYear(),
                     eventPlanning.getDayOfMonth()).show();
-
-
         });
         //endregion
 
         //region Register Switch
 
         // Show the Spinner when Switch is on TRUE
-        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    textRepetition.setVisibility(View.VISIBLE);
-                    minutes.setVisibility(View.VISIBLE);
-                    txtMinutes.setVisibility(View.VISIBLE);
-                    heures.setVisibility(View.VISIBLE);
-                    txtHeures.setVisibility(View.VISIBLE);
-                    jours.setVisibility(View.VISIBLE);
-                    txtJours.setVisibility(View.VISIBLE);
-                    mois.setVisibility(View.VISIBLE);
-                    txtMois.setVisibility(View.VISIBLE);
-                    annee.setVisibility(View.VISIBLE);
-                    txtAnnee.setVisibility(View.VISIBLE);
-                } else {
-                    textRepetition.setVisibility(View.INVISIBLE);
-                    minutes.setVisibility(View.INVISIBLE);
-                    txtMinutes.setVisibility(View.INVISIBLE);
-                    heures.setVisibility(View.INVISIBLE);
-                    txtHeures.setVisibility(View.INVISIBLE);
-                    jours.setVisibility(View.INVISIBLE);
-                    txtJours.setVisibility(View.INVISIBLE);
-                    mois.setVisibility(View.INVISIBLE);
-                    txtMois.setVisibility(View.INVISIBLE);
-                    annee.setVisibility(View.INVISIBLE);
-                    txtAnnee.setVisibility(View.INVISIBLE);
-                }
+        switchButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                textRepetition.setVisibility(View.VISIBLE);
+                minute.setVisibility(View.VISIBLE);
+                txtMinute.setVisibility(View.VISIBLE);
+                hour.setVisibility(View.VISIBLE);
+                txtHour.setVisibility(View.VISIBLE);
+                day.setVisibility(View.VISIBLE);
+                txtDay.setVisibility(View.VISIBLE);
+                month.setVisibility(View.VISIBLE);
+                txtMonth.setVisibility(View.VISIBLE);
+                year.setVisibility(View.VISIBLE);
+                txtYear.setVisibility(View.VISIBLE);
+            } else {
+                textRepetition.setVisibility(View.INVISIBLE);
+                minute.setVisibility(View.INVISIBLE);
+                txtMinute.setVisibility(View.INVISIBLE);
+                hour.setVisibility(View.INVISIBLE);
+                txtHour.setVisibility(View.INVISIBLE);
+                day.setVisibility(View.INVISIBLE);
+                txtDay.setVisibility(View.INVISIBLE);
+                month.setVisibility(View.INVISIBLE);
+                txtMonth.setVisibility(View.INVISIBLE);
+                year.setVisibility(View.INVISIBLE);
+                txtYear.setVisibility(View.INVISIBLE);
             }
         });
 
-        List<Integer> rrrr = new ArrayList<Integer>();
-        rrrr.add(1);
-        //Ints.asList(getResources().getIntArray(R.array.hours_array))
-        //Ints.asList(getResources().getIntArray(R.array.minutes_array))
         // Setup the adapters
-        ArrayAdapter<Integer> adapterMinutes = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.minutes_array)));
-        ArrayAdapter<Integer> adapterHours = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.hours_array)));
-        ArrayAdapter<Integer> adapterDays = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.days_array)));
-        ArrayAdapter<Integer> adapterMonths = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.months_array)));
-        ArrayAdapter<Integer> adapterYears = new ArrayAdapter<Integer>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.years_array)));
+        ArrayAdapter<Integer> adapterMinutes = new ArrayAdapter<>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.minutes_array)));
+        ArrayAdapter<Integer> adapterHours = new ArrayAdapter<>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.hours_array)));
+        ArrayAdapter<Integer> adapterDays = new ArrayAdapter<>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.days_array)));
+        ArrayAdapter<Integer> adapterMonths = new ArrayAdapter<>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.months_array)));
+        ArrayAdapter<Integer> adapterYears = new ArrayAdapter<>(EventForm.this, android.R.layout.simple_spinner_item, Ints.asList(getResources().getIntArray(R.array.years_array)));
         // Setup the dropdown
         adapterMinutes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterHours.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -211,11 +191,11 @@ public class EventForm extends Activity
         adapterMonths.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterYears.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Set the adapters in spinners
-        minutes.setAdapter(adapterMinutes);
-        heures.setAdapter(adapterHours);
-        jours.setAdapter(adapterDays);
-        mois.setAdapter(adapterMonths);
-        annee.setAdapter(adapterYears);
+        minute.setAdapter(adapterMinutes);
+        hour.setAdapter(adapterHours);
+        day.setAdapter(adapterDays);
+        month.setAdapter(adapterMonths);
+        year.setAdapter(adapterYears);
         //endregion
 
         //region Register Input Validation
@@ -233,7 +213,7 @@ public class EventForm extends Activity
      * @return A OnClickListener configured
      */
     private View.OnClickListener getValidationListener(EditText titleEvent, EditText descEvent, EditText dateAndTimeField){
-        View.OnClickListener listener = view -> {
+        return view -> {
             boolean checkError = false;
 
             if(titleEvent.getText().toString().length() < getResources().getInteger(R.integer.EVENT_TITLE_LENGTH)){
@@ -255,6 +235,5 @@ public class EventForm extends Activity
                 createNewEvent();
             }
         };
-        return listener;
     }
 }

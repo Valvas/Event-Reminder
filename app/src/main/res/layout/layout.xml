@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/EditTxtDescription" />
 
     <Switch
-        android:id="@+id/SwtchRepetition"
+        android:id="@+id/SwitchRepetition"
         android:layout_width="145dp"
         android:layout_height="47dp"
         android:layout_marginLeft="16dp"
@@ -90,7 +90,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SwtchRepetition" />
+        app:layout_constraintTop_toBottomOf="@+id/SwitchRepetition" />
 
     <Button
         android:id="@+id/ButtonAddEvent"
@@ -156,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="heures"
+        android:text="hour"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/SpinHeures"
         app:layout_constraintStart_toEndOf="@+id/SpinHeures"
@@ -168,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="jours"
+        android:text="day"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/SpinJours"
         app:layout_constraintStart_toEndOf="@+id/SpinJours"
@@ -192,7 +192,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="mois"
+        android:text="month"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/SpinMois"
         app:layout_constraintStart_toEndOf="@+id/SpinMois"

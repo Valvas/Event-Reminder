@@ -8,20 +8,13 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.google.common.primitives.Booleans;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +48,7 @@ public class APIEvents extends APIRequester {
         return event[0];
     }
 
-    public void Get(final Context context, final String requesterEmail) {
+    public void get(final Context context, final String requesterEmail) {
         try{
             JSONObject content = new JSONObject();
 
@@ -72,12 +65,9 @@ public class APIEvents extends APIRequester {
             this.readFromUrl(this.route + "get-my-events", content, Request.Method.GET, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
-                    // Handle response from server
                     try {
                         List<Event> eventList = new ArrayList<>();
                         if(result.getBoolean("result")){
-
-
                             JSONArray events = result.getJSONArray("events");
 
                             for(int i = 0; i < events.length(); i++){
@@ -86,7 +76,7 @@ public class APIEvents extends APIRequester {
                                 int id = event.getInt("id");
                                 String name = event.getString("name");
                                 String description = event.getString("description");
-                                boolean ponctual = event.getBoolean("ponctual");
+                                boolean isPonctual = event.getBoolean("ponctual");
                                 //int cycleMinutes = event.getInt("minutes");
                                 int cycleHours = event.getInt("hours");
                                 int cycleDays = event.getInt("days");
@@ -98,132 +88,147 @@ public class APIEvents extends APIRequester {
                                 JSONObject jsonAccount = event.getJSONObject("account");
                                 LiteAccount account = new LiteAccount(jsonAccount.getString("lastname"), jsonAccount.getString("firstname"), jsonAccount.getString("email"));
 
-                                Event eventForList = new Event(name, account, description, date, cycle, ponctual, id);
+                                Event eventForList = new Event(name, account, description, date, cycle, isPonctual, id);
                                 eventList.add(eventForList);
                             }
                             eventsCache = eventList;
 
                             EventAdapter eventListAdapter = new EventAdapter(context, eventList);
                             ((MyEvents)context).setListAdapter(eventListAdapter);
-
                         }
 
                         TextView loadingText = ((MyEvents)context).findViewById(R.id.LoadText);
                         loadingText.setVisibility(View.INVISIBLE);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } catch (JSONException jsonEx) {
+                        Log.e("onSuccessReponse:Failure", jsonEx.getMessage());
                     }
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // Handle error
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(error.networkResponse == null) return;
+
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
                 }
             });
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception getEx){
+            Log.e("get() Event", getEx.getMessage());
         }
     }
 
-    public void Create(final Context context, final Event newEvent) throws JSONException {
+    public void create(final Context context, final Event newEvent) throws JSONException {
         JSONObject eventNode = buildEventJSON(newEvent);
 
         try{
             this.readFromUrl(this.route + "create-new-event", eventNode, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
-                    // Handle response from server
-                    Toast.makeText(context, result.toString(), Toast.LENGTH_SHORT).show();
-
+                    try {
+                        if(result.getBoolean("result")){
+                            Toast.makeText(context, "Évènement créé", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException jsonEx) {
+                        Log.e("onSuccessReponse:Failure", jsonEx.getMessage());
+                    }
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // Handle error
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-
                     if(error.networkResponse == null) return;
 
-                    String test = new String(error.networkResponse.data);
-                    Log.i("response", test);
-
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
                 }
             });
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception createEx){
+            Log.e("create() Event", createEx.getMessage());
         }
     }
 
-    public void Update(final Context context, final Event newEvent) throws JSONException {
+    public void update(final Context context, final Event newEvent) throws JSONException {
         JSONObject eventNode = buildEventJSON(newEvent);
 
         try{
             this.readFromUrl(this.route + "update-event", eventNode, Request.Method.PUT, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
-                    // Handle response from server
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // Handle error
-                }
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void Delete(final Context context, final int idEvent) {
-        try{
-            JSONObject eventNode = new JSONObject();
-
-            eventNode.put("event", idEvent);
-
-            this.readFromUrl(this.route + "delete-event", eventNode, Request.Method.DELETE, context, new APICallback() {
-                @Override
-                public void onSuccessResponse(JSONObject result) {
-                    // Handle response from server
                     try {
                         if(result.getBoolean("result")){
-                            ((EventDetails)context).getBackToTheList();
+                            Toast.makeText(context, "Évènement mis à jour", Toast.LENGTH_SHORT).show();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } catch (JSONException jsonEx) {
+                        Log.e("onSuccessReponse:Failure", jsonEx.getMessage());
                     }
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // Handle error
+                    if(error.networkResponse == null) return;
+
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
                 }
             });
-        } catch (Exception exp){
+        } catch (Exception updateEx){
+            Log.e("update() Event", updateEx.getMessage());
+        }
+    }
 
+    public void delete(final Context context, final int idEvent) {
+        try{
+            JSONObject eventNode = new JSONObject();
+
+            eventNode.put("event", idEvent);
+
+            this.readFromUrl(this.route + "delete-event", eventNode, Request.Method.POST, context, new APICallback() {
+                @Override
+                public void onSuccessResponse(JSONObject result) {
+                    // Handle response from server
+                    try {
+                        if(result.getBoolean("result")){
+                            Toast.makeText(context, "Évènement annulé", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException jsonEx) {
+                        Log.e("onSuccessReponse:Failure", jsonEx.getMessage());
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse == null) return;
+
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
+                }
+            });
+        } catch (Exception deleteEx){
+            Log.e("delete() Event", deleteEx.getMessage());
         }
     }
 
     private JSONObject buildEventJSON(Event event) throws JSONException {
-        JSONObject eventNode = new JSONObject();
-        JSONObject contentNode = new JSONObject();
-        JSONObject contentSubNode = new JSONObject();
+        JSONObject content = new JSONObject();
+        JSONObject eventContent = new JSONObject();
 
-        contentNode.put("name", event.getName());
-        contentNode.put("description", event.getDescription());
-        contentNode.put("accountEmail", event.getAccountCreator().getIdentifier());
-        contentNode.put("date", TimeUnit.MILLISECONDS.toSeconds(event.getDate().getMillis()));
-        contentNode.put("isPonctual", event.getCycleState());
+        eventContent.put("name", event.getName());
+        eventContent.put("description", event.getDescription());
+        eventContent.put("date", TimeUnit.MILLISECONDS.toSeconds(event.getDate().getMillis()));
+        eventContent.put("isPonctual", event.getCycleState());
 
-        contentSubNode.put("minutes", event.getCycle().getMinutes());
-        contentSubNode.put("hours", event.getCycle().getHeures());
-        contentSubNode.put("days", event.getCycle().getJours());
-        contentSubNode.put("months", event.getCycle().getMois());
-        contentSubNode.put("years", event.getCycle().getAnnee());
+        JSONObject timeCycleContent = new JSONObject();
 
-        contentNode.put("timeCycle", contentSubNode);
-        eventNode.put("event", contentNode);
+        timeCycleContent.put("years", event.getCycle().getYear());
+        timeCycleContent.put("months", event.getCycle().getMonth());
+        timeCycleContent.put("days", event.getCycle().getDay());
+        timeCycleContent.put("hours", event.getCycle().getHour());
+        timeCycleContent.put("minutes", event.getCycle().getMinutes());
 
-        return eventNode;
+        eventContent.put("timeCycle", timeCycleContent);
+        content.put("event", eventContent);
+
+        Log.d("JSONObject Event", content.toString(4));
+
+        return content;
     }
 }

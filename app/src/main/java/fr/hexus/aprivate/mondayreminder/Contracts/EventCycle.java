@@ -9,41 +9,41 @@ import java.io.Serializable;
 public class EventCycle implements Serializable{
 
     private int minutes;
-    private int heures;
-    private int jours;
-    private int mois;
-    private int annee;
+    private int hour;
+    private int day;
+    private int month;
+    private int year;
 
-    public EventCycle(int minutes, int heures, int jours, int mois, int annee) {
+    public EventCycle(int minutes, int hour, int day, int month, int year) {
         this.minutes = minutes;
-        this.heures = heures;
-        this.jours = jours;
-        this.mois = mois;
-        this.annee = annee;
+        this.hour = hour;
+        this.day = day;
+        this.month = month;
+        this.year = year;
     }
 
     public int getMinutes() {
         return minutes;
     }
 
-    public int getHeures() {
-        return heures;
+    public int getHour() {
+        return hour;
     }
 
-    public int getJours() {
-        return jours;
+    public int getDay() {
+        return day;
     }
 
-    public int getMois() {
-        return mois;
+    public int getMonth() {
+        return month;
     }
 
-    public int getAnnee() {
-        return annee;
+    public int getYear() {
+        return year;
     }
 
     @Override
     public String toString() {
-        return annee + " year(s) " + mois + " month(s) " + jours + " day(s) " + heures + " hour(s) " + minutes + " minute(s)";
+        return year + " year(s) " + month + " month(s) " + day + " day(s) " + hour + " hour(s) " + minutes + " minute(s)";
     }
 }
