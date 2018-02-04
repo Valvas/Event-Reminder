@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
 public class Logon extends FragmentActivity implements View.OnClickListener {
@@ -55,7 +56,11 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
             }
         }
 
+        Log.i("TEST", FirebaseInstanceId.getInstance().getToken());
+
         firebaseAuth = FirebaseAuth.getInstance();
+
+        Log.i("TEST", FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override
@@ -140,7 +145,6 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
 
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this, task -> {
-
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithCredential:success");
 

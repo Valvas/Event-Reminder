@@ -45,7 +45,6 @@ public class APIUser extends APIRequester {
         contentNode.put("email", email);
         contentNode.put("lastname", lastName);
         contentNode.put("firstname", firstName);
-        contentNode.put("firebase_token", FirebaseInstanceId.getInstance().getToken());
 
         accountNode.put("account", contentNode);
 
@@ -95,7 +94,7 @@ public class APIUser extends APIRequester {
      * @throws JSONException JSONException describing the anomaly within the JSON object sent
      */
     public void sendNotificationToken(final Context context, final String email,
-                                      final String token, final boolean refreshToken) throws  Exception{
+                                      final String token) throws  Exception{
 
         JSONObject contentNode = new JSONObject();
 
@@ -110,14 +109,6 @@ public class APIUser extends APIRequester {
                     try {
                         if(result.getBoolean("result")){
                             Log.d("sendNotificationToken", "Token sent: " + token);
-
-                            if(refreshToken){
-                                String lastName = GlobalVariables.CurrentAccount.getLastName();
-                                String firstName = GlobalVariables.CurrentAccount.getFirstName();
-
-                                GlobalVariables.CurrentAccount =
-                                        new Account(lastName, firstName, email, token);
-                            }
                         }
                     } catch (Exception e) {
                         Log.e("onSuccessResponse:Failure", e.getMessage());

@@ -27,8 +27,6 @@ public class CustomFirebaseInstanceIdService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        Log.d("onTokenRefresh", "Refreshed token: " + refreshedToken);
-
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
@@ -46,7 +44,7 @@ public class CustomFirebaseInstanceIdService extends FirebaseInstanceIdService {
     private void sendRegistrationToServer(String token) {
         try{
             new APIUser().sendNotificationToken(
-                    this, GlobalVariables.CurrentAccount.getIdentifier(), token, true);
+                    this, GlobalVariables.CurrentAccount.getIdentifier(), token);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
 import fr.hexus.aprivate.mondayreminder.GlobalVariables;
@@ -24,14 +26,21 @@ public class Home extends Activity
         try {
             new APIUser().sendNotificationToken(this,
                     GlobalVariables.CurrentAccount.getIdentifier(),
-                    GlobalVariables.CurrentAccount.getToken(), false);
+                    FirebaseInstanceId.getInstance().getToken());
+
+            Log.d("onCreate() Home",
+                    "Account: " + GlobalVariables.CurrentAccount.getIdentifier() +
+                    " | Token: " + GlobalVariables.CurrentAccount.getToken() +
+                    " | Firebase Token: " + FirebaseInstanceId.getInstance().getToken());
+
         } catch (Exception e) {
             Log.e("onCreate() Home", e.getMessage());
         }
 
         TextView welcomeMessage = findViewById(R.id.welcomeMessage);
 
-        welcomeMessage.setText(welcomeMessage.getText() + " " + GlobalVariables.CurrentAccount.getFirstName());
+        welcomeMessage.setText(String.format("%s %s",
+                welcomeMessage.getText(), GlobalVariables.CurrentAccount.getFirstName()));
     }
 
     /**

@@ -9,4 +9,5 @@ import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 public class GlobalVariables {
 
     public static Account CurrentAccount;
+    public static String oldFirebaseToken;
 }
