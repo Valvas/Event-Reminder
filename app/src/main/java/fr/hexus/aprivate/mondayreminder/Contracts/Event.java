@@ -26,11 +26,7 @@ public class Event implements Serializable
     /**
      * Account of creator
      */
-    private Account creator;
-    /**
-     * Account of creator
-     */
-    private String idCreator;
+    private LiteAccount creator;
     /**
      * Time cycle of the event
      */
@@ -42,8 +38,9 @@ public class Event implements Serializable
     //endregion
 
     //region Constructor
-    public Event(String name, Account creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
+    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean ponctual, int id)
     {
+        this.id = id;
         this.date = date;
         this.name = name;
         this.cycle = cycle;
@@ -52,13 +49,13 @@ public class Event implements Serializable
         this.description = description;
     }
 
-    public Event(String name, String creator, String description, DateTime date, EventCycle cycle, boolean ponctual, int id)
+    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean ponctual)
     {
         this.date = date;
         this.name = name;
         this.cycle = cycle;
         this.isPonctual = ponctual;
-        this.idCreator = creator;
+        this.creator = creator;
         this.description = description;
     }
     //endregion
@@ -70,11 +67,9 @@ public class Event implements Serializable
 
     public String getDescription(){ return this.description; }
 
-    public Account getLinkedAccount(){ return this.creator; }
+    public LiteAccount getAccountCreator(){ return this.creator; }
 
     public String getCreator(){
-        if(this.creator == null)
-            return this.idCreator;
         return this.creator.getFirstName() + " " + this.creator.getLastName();
     }
 
@@ -98,7 +93,7 @@ public class Event implements Serializable
      * @return A string formatted date
      */
     public String getSimpleDate(){
-        String dateString = this.date.toString("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String dateString = this.date.toString("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateString;
     }
 
@@ -115,7 +110,7 @@ public class Event implements Serializable
     }
 
     public String getCycleDetails(){
-        if(!this.isPonctual)
+        if(this.isPonctual)
             return "Répétition : " + this.cycle.toString();
 
         return "Répétitif : Non";
@@ -123,9 +118,9 @@ public class Event implements Serializable
 
     public Boolean getCycleState(){
         if(!this.isPonctual)
-            return true;
+            return false;
 
-        return false;
+        return true;
     }
     //endregion
     //endregion

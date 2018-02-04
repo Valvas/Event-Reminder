@@ -31,6 +31,7 @@ import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Account;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
+import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
 import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
@@ -63,7 +64,7 @@ public class EventForm extends Activity
         //region Get the inputs
         String title = titleEvent.getText().toString();
         String description = descEvent.getText().toString();
-        boolean repetition = !switchButton.isChecked();
+        boolean repetition = switchButton.isChecked();
         EventCycle cycle = null;
         if(repetition){
             int minutes = (int) ((Spinner) findViewById(R.id.SpinMinutes)).getSelectedItem();
@@ -76,7 +77,8 @@ public class EventForm extends Activity
         } else {
             cycle = new EventCycle(0, 0, 0, 0, 0);
         }
-        Account account = GlobalVariables.CurrentAccount;
+
+        LiteAccount account = new LiteAccount(GlobalVariables.CurrentAccount.getLastName(), GlobalVariables.CurrentAccount.getFirstName(), GlobalVariables.CurrentAccount.getIdentifier());
         //endregion
 
         //region Send data to API and close activity

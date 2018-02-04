@@ -19,14 +19,14 @@ public class Participation
     {
         return this.participatedEvent.getName() +
                 "\n" +
-                this.participatingAccount.getFirstname() +
+                this.participatingAccount.getFirstName() +
                 " " +
                 this.participatingAccount.getLastName();
     }
 
     public String getParticipantName()
     {
-        return this.participatingAccount.getFirstname() +
+        return this.participatingAccount.getFirstName() +
                 " " +
                 this.participatingAccount.getLastName();
     }

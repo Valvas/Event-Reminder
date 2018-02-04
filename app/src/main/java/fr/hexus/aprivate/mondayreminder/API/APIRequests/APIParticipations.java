@@ -1,6 +1,8 @@
 package fr.hexus.aprivate.mondayreminder.API.APIRequests;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,26 +34,30 @@ public class APIParticipations extends APIRequester {
 
     private final String route = this.baseURL + "/participations/";
 
-    public void AddParticipant(final Context context, final String participantID, final int eventID) throws JSONException {
-        JSONObject content = new JSONObject();
+    public void AddParticipant(final Context context, final String participantID, final int eventID, DialogInterface dialog) {
+        try {
+            JSONObject content = new JSONObject();
 
-        content.put("email", participantID);
-        content.put("event", eventID);
+            content.put("participantEmail", participantID);
+            content.put("event", eventID);
 
-        try{
             this.readFromUrl(this.route + "add-participant-to-event", content, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
+                    APIParticipations.this.GetParticipants(context, eventID);
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
+                    Toast.makeText(context, context.getResources().getText(R.string.error_updating_participation_status), Toast.LENGTH_SHORT).show();
+                    Log.i("datarequest", content.toString());
+                    Log.i("error", new String(error.networkResponse.data));
                 }
             });
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception exp){
+
         }
     }
 
@@ -60,10 +66,10 @@ public class APIParticipations extends APIRequester {
             JSONObject updateNode = new JSONObject();
             JSONObject content = new JSONObject();
 
-            content.put("accountEmail", participantID);
-            content.put("eventId", eventID);
-            content.put("status", status);
-            updateNode.put("update", content);
+            updateNode.put("accountEmail", participantID);
+            updateNode.put("eventId", eventID);
+            updateNode.put("status", status);
+            content.put("update", updateNode);
 
             this.readFromUrl(this.route + "update-participation-status", content, Request.Method.PUT, context, new APICallback() {
                 @Override
@@ -84,6 +90,8 @@ public class APIParticipations extends APIRequester {
                     // Handle error
                     ((EventDetails)context).UpdateParticipatingStatusUI(ParticipatingStatus.WAIT.getValue());
                     Toast.makeText(context, context.getResources().getText(R.string.error_updating_participation_status), Toast.LENGTH_SHORT).show();
+                    Log.i("datarequest", content.toString());
+                    Log.i("error", new String(error.networkResponse.data));
                 }
             });
 
@@ -96,16 +104,16 @@ public class APIParticipations extends APIRequester {
         try{
             JSONObject content = new JSONObject();
 
-            content.put("email", participantID);
+            content.put("participantEmail", participantID);
             content.put("event", eventID);
 
-            this.readFromUrl(this.route + "remove-participant-from-event", content, Request.Method.DELETE, context, new APICallback() {
+            this.readFromUrl(this.route + "remove-participant-from-event", content, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
                     try {
                         if(result.getBoolean("result")){
-                            new APIParticipations().GetParticipants(context, eventID);
+                            Toast.makeText(context, "Le participant à bien été supprimé.", Toast.LENGTH_SHORT);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -115,6 +123,9 @@ public class APIParticipations extends APIRequester {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.i("datarequest", content.toString());
+                    Log.i("error", new String(error.networkResponse.data));
                 }
             });
         } catch (Exception exp){

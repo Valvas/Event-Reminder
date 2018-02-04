@@ -23,6 +23,9 @@ import fr.hexus.aprivate.mondayreminder.R;
 
 public class EventDetails extends Activity
 {
+    private Event currentEvent = null;
+
+
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState)
@@ -30,73 +33,36 @@ public class EventDetails extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_view);
 
-        Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
+        currentEvent = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
 
-        if(GlobalVariables.CurrentAccount.getIdentifier().equals(event.getCreator()))
-        {
-            //ADD A BUTTON TO CANCEL THE EVENT
-        }
-
-        TextView participationStatus = (TextView) findViewById(R.id.participationStatus);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
-        {
-            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, GlobalVariables.CurrentAccount))
-            {
-                case 0:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FFFF00'>En attente</font>", Html.FROM_HTML_MODE_LEGACY));
-                    break;
-                case 1:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FF0921'>Non</font>", Html.FROM_HTML_MODE_LEGACY));
-                    break;
-                case 2:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#77B5FE'>Oui</font>", Html.FROM_HTML_MODE_LEGACY));
-                    break;
-            }
-        }
-
-        else
-        {
-            switch(new ApiQueries(getString(R.string.API_ADDRESS), getResources().getInteger(R.integer.API_PORT)).getParticipationStatusToEvent(event, GlobalVariables.CurrentAccount))
-            {
-                case 0:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#888800'>En attente</font>"));
-                    break;
-                case 1:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#FF0921'>Non</font>"));
-                    break;
-                case 2:
-                    participationStatus.setText(Html.fromHtml("Vous participez : " + "<font color='#77B5FE'>Oui</font>"));
-                    break;
-            }
-        }
+        initControls();
 
 
     }
 
     private void initControls(){
-        Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
 
         // Setting up the action on "Je participe" button
         Button YesResponseButton = (Button) findViewById(R.id.participatingYesButton);
         YesResponseButton.setOnClickListener(
-                v -> new APIParticipations().UpdateStatus(EventDetails.this, GlobalVariables.CurrentAccount.getIdentifier(), event.getId(), ParticipatingStatus.YES.getValue())
+                v -> new APIParticipations().UpdateStatus(EventDetails.this, GlobalVariables.CurrentAccount.getIdentifier(), currentEvent.getId(), ParticipatingStatus.YES.getValue())
         );
 
         // Setting up the action on "Je ne participe pas" button
         Button NoResponseButton = (Button) findViewById(R.id.participatingNoButton);
         NoResponseButton.setOnClickListener(
-                v -> new APIParticipations().UpdateStatus(EventDetails.this, GlobalVariables.CurrentAccount.getIdentifier(), event.getId(), ParticipatingStatus.NO.getValue())
+                v -> new APIParticipations().UpdateStatus(EventDetails.this, GlobalVariables.CurrentAccount.getIdentifier(), currentEvent.getId(), ParticipatingStatus.NO.getValue())
         );
 
         Button DeleteEventButton = (Button) findViewById(R.id.deleteevent);
-        DeleteEventButton.setOnClickListener(
-                v -> new APIEvents().Delete(EventDetails.this, event.getId())
-        );
+        DeleteEventButton.setOnClickListener(v -> {
+            new APIEvents().Delete(EventDetails.this, currentEvent.getId());
+            EventDetails.this.getBackToTheList();
+        });
 
-        new APIParticipations().GetParticipation(this, GlobalVariables.CurrentAccount.getIdentifier(), event.getId());
+        new APIParticipations().GetParticipation(this, GlobalVariables.CurrentAccount.getIdentifier(), currentEvent.getId());
 
-        setTexts(event);
+        setTexts(currentEvent);
     }
 
     private void setTexts(Event event){
@@ -107,7 +73,7 @@ public class EventDetails extends Activity
         TextView eventDescription = (TextView)  findViewById(R.id.eventDescription);
 
         eventName.setText(event.getName());
-        eventDate.setText(event.getPrettyDate());
+        eventDate.setText(event.getSimpleDate());
         eventCycle.setText(event.getCycleDetails());
 
         if(GlobalVariables.CurrentAccount.getIdentifier().equals(event.getCreator())){ eventCreator.setText("Créé par : Vous"); }

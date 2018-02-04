@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.google.common.primitives.Booleans;
 
 import org.joda.time.DateTime;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +32,7 @@ import fr.hexus.aprivate.mondayreminder.Activities.EventDetails;
 import fr.hexus.aprivate.mondayreminder.Activities.MyEvents;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.EventCycle;
+import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
 import fr.hexus.aprivate.mondayreminder.R;
 
 /**
@@ -76,25 +78,27 @@ public class APIEvents extends APIRequester {
                         if(result.getBoolean("result")){
 
 
-                            JSONObject events = result.getJSONObject("events");
-                            Iterator<?> keys = events.keys();
+                            JSONArray events = result.getJSONArray("events");
 
-                            while(keys.hasNext()){
-                                JSONObject event = events.getJSONObject((String)keys.next());
+                            for(int i = 0; i < events.length(); i++){
+                                JSONObject event = events.getJSONObject(i);
 
                                 int id = event.getInt("id");
                                 String name = event.getString("name");
                                 String description = event.getString("description");
-                                String creator = event.getString("account_email");
-                                boolean ponctual = event.getInt("is_ponctual") == 1;
-                                int cycleHours = event.getInt("cycle_hours");
-                                int cycleDays = event.getInt("cycle_days");
-                                int cycleMonths = event.getInt("cycle_months");
-                                int cycleYears = event.getInt("cycle_years");
+                                boolean ponctual = event.getBoolean("ponctual");
+                                //int cycleMinutes = event.getInt("minutes");
+                                int cycleHours = event.getInt("hours");
+                                int cycleDays = event.getInt("days");
+                                int cycleMonths = event.getInt("months");
+                                int cycleYears = event.getInt("years");
                                 DateTime date = new DateTime(event.getLong("date"));
                                 EventCycle cycle = new EventCycle(0, cycleHours, cycleDays, cycleMonths, cycleYears);
 
-                                Event eventForList = new Event(name, creator, description, date, cycle, ponctual, id);
+                                JSONObject jsonAccount = event.getJSONObject("account");
+                                LiteAccount account = new LiteAccount(jsonAccount.getString("lastname"), jsonAccount.getString("firstname"), jsonAccount.getString("email"));
+
+                                Event eventForList = new Event(name, account, description, date, cycle, ponctual, id);
                                 eventList.add(eventForList);
                             }
                             eventsCache = eventList;
@@ -207,7 +211,7 @@ public class APIEvents extends APIRequester {
 
         contentNode.put("name", event.getName());
         contentNode.put("description", event.getDescription());
-        contentNode.put("accountEmail", event.getLinkedAccount().getIdentifier());
+        contentNode.put("accountEmail", event.getAccountCreator().getIdentifier());
         contentNode.put("date", TimeUnit.MILLISECONDS.toSeconds(event.getDate().getMillis()));
         contentNode.put("isPonctual", event.getCycleState());
 

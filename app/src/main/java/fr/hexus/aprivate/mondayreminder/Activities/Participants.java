@@ -6,8 +6,12 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,6 +20,7 @@ import fr.hexus.aprivate.mondayreminder.ApiQueries;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
 import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.ParticipantAdapter;
+import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 import fr.hexus.aprivate.mondayreminder.R;
 
 public class Participants extends ListActivity
@@ -33,6 +38,8 @@ public class Participants extends ListActivity
         eventName.setText(getText(R.string.participants_view_event_name) + " : " + event.getName());
 
         new APIParticipations().GetParticipants(this, event.getId());
+
+        setActionAddParticipants();
     }
 
     public void goBackToEventView(View view)
@@ -44,20 +51,74 @@ public class Participants extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
+        Participation participation = (Participation) l.getItemAtPosition(position);
+
+        if(participation.participatingAccount.getIdentifier().equalsIgnoreCase(GlobalVariables.CurrentAccount.getIdentifier())){
+            return;
+        }
+
         AlertDialog.Builder removeParticipant = new AlertDialog.Builder(this);
         removeParticipant.setTitle("Enlever participant").setMessage("Voulez-vous supprimer cette personne de l'évenement ?");
 
         removeParticipant.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Participation participation = (Participation) l.getItemAtPosition(position);
                 Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
-
                 new APIParticipations().RemoveParticipant(Participants.this, participation.participatingAccount.getIdentifier(), event.getId());
+                new APIParticipations().GetParticipants(Participants.this, event.getId());
+            }
+        });
+
+        removeParticipant.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
 
         AlertDialog removeDialog = removeParticipant.create();
         removeDialog.show();
+    }
+
+    private void setActionAddParticipants(){
+        Button addParticipants = (Button) findViewById(R.id.addParticipant);
+
+        AlertDialog.Builder addParticipantDialog = new AlertDialog.Builder(this);
+        addParticipantDialog.setTitle("Ajouter participant");
+        addParticipantDialog.setMessage("Email du participant :");
+
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        addParticipantDialog.setView(input);
+
+        addParticipantDialog.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = input.getText().toString();
+                if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
+                    new APIParticipations().AddParticipant(Participants.this, email, event.getId(), dialog);
+                } else {
+                    Toast.makeText(Participants.this, "L'adresse n'est pas valide.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        addParticipantDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        addParticipants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addParticipantDialog.show();
+            }
+        });
     }
 }

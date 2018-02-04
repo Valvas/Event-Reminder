@@ -1,10 +1,12 @@
 package fr.hexus.aprivate.mondayreminder.Contracts;
 
+import java.io.Serializable;
+
 /**
  * Created by Nicolas on 28/01/2018.
  */
 
-public class LiteAccount {
+public class LiteAccount implements Serializable{
 
     private String lastName;
     private String firstname;
@@ -20,7 +22,7 @@ public class LiteAccount {
         return lastName;
     }
 
-    public String getFirstname() {
+    public String getFirstName() {
         return firstname;
     }
 
