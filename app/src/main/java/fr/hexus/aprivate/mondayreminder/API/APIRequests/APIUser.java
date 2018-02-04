@@ -25,7 +25,8 @@ import fr.hexus.aprivate.mondayreminder.GlobalVariables;
 
 public class APIUser extends APIRequester {
 
-    private final String route = baseURL + "/public/accounts/";
+    private final String publicRoute = baseURL + "/public/accounts/";
+    private final String route = baseURL + "/accounts/";
 
     /**
      * Stores the connected Google Account in the application and logs in the user
@@ -35,7 +36,9 @@ public class APIUser extends APIRequester {
      * @param lastName Lastname of the currently connected user
      * @throws JSONException JSONException describing the anomaly within the JSON object sent
      */
-    public void Login(final Context context, final String email, final String firstName, final String lastName) throws JSONException {
+    public void Login(final Context context, final String email, final String firstName,
+                      final String lastName) throws Exception {
+
         JSONObject accountNode = new JSONObject();
         JSONObject contentNode = new JSONObject();
 
@@ -47,14 +50,18 @@ public class APIUser extends APIRequester {
         accountNode.put("account", contentNode);
 
         try {
-            readFromUrl(route + "create-account", accountNode, Request.Method.POST, context, new APICallback() {
+            readFromUrl(publicRoute + "create-account", accountNode, Request.Method.POST, context,
+                    new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     try {
                         if(result.getBoolean("result")){
                             ((Logon)context).finishAffinity();
                             Intent intent = new Intent(context, Home.class);
-                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email, result.getString("token"));
+
+                            GlobalVariables.CurrentAccount = new Account(lastName, firstName, email,
+                                    result.getString("token"));
+
                             ((Logon)context).makeToast("Connexion réussie");
                             context.startActivity(intent);
                         }
@@ -66,7 +73,8 @@ public class APIUser extends APIRequester {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(context, "Connexion échouée", Toast.LENGTH_SHORT).show();
-                    Log.e(APIUser.class.getName(), "Callback Error :\nMessage : " + error.getMessage());
+                    Log.e(APIUser.class.getName(), "Callback Error :\nMessage : " +
+                            error.getMessage());
 
                     if(error.networkResponse == null) return;
 
@@ -75,37 +83,57 @@ public class APIUser extends APIRequester {
                 }
             });
         } catch (Exception e) {
-            throw new JSONException(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     /**
-     * WIP: Sends a refreshed token to the specified account in the database
+     * Sends the token of the specified account to the database
      * @param context Context
      * @param email Email of the currently connected user
-     * @param firstName Firstname of the currently connected user
-     * @param lastName Lastname of the currently connected user
+     * @param token Refreshed token to be sent
      * @throws JSONException JSONException describing the anomaly within the JSON object sent
      */
-    public void refreshUserToken(final Context context, final String email, final String firstName, final String lastName, final String token) throws JSONException{
+    public void sendNotificationToken(final Context context, final String email,
+                                      final String token, final boolean refreshToken) throws  Exception{
+
         JSONObject contentNode = new JSONObject();
 
         contentNode.put("email", email);
-        contentNode.put("firstname", firstName);
-        contentNode.put("lastname", lastName);
         contentNode.put("token", token);
-    }
 
-    /**
-     * WIP: Removes the disconnected user' token from the database
-     * @param context Context
-     * @param email Email of the currently connected user
-     * @throws JSONException JSONException describing the anomaly within the JSON object sent
-     */
-    public void removeUserToken(final Context context, final String email) throws JSONException{
-        JSONObject contentNode = new JSONObject();
+        try {
+            readFromUrl(route + "add-notification-token", contentNode, Request.Method.POST,
+                    context, new APICallback() {
+                @Override
+                public void onSuccessResponse(JSONObject result) {
+                    try {
+                        if(result.getBoolean("result")){
+                            Log.d("sendNotificationToken", "Token sent: " + token);
 
-        contentNode.put("email", email);
-        contentNode.put("token", FirebaseInstanceId.getInstance().getToken());
+                            if(refreshToken){
+                                String lastName = GlobalVariables.CurrentAccount.getLastName();
+                                String firstName = GlobalVariables.CurrentAccount.getFirstName();
+
+                                GlobalVariables.CurrentAccount =
+                                        new Account(lastName, firstName, email, token);
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("onSuccessResponse:Failure", e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse == null) return;
+
+                    String errorData = new String(error.networkResponse.data);
+                    Log.e("response", errorData);
+                }
+            });
+        } catch (Exception e) {
+            throw new  Exception(e.getMessage());
+        }
     }
 }

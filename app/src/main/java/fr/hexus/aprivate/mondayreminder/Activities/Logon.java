@@ -45,10 +45,11 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            // If "wantsToBeDisconnected" boolean is true, then signing out
+            // If "wantsToBeDisconnected" boolean is true, then sign out
             if(getIntent().getBooleanExtra("wantsToBeDisconnected", false)){
                 signOut();
             }
@@ -75,7 +76,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
                 // Google Sign In failed
                 Log.e(TAG, "Login aborted.\nException details:\n" + e);
 
-                Toast.makeText(this, "Login aborted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connexion échouée", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -115,7 +116,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
 
             Log.e("goToHomePage()", "The current Firebase user is null or invalid.");
         } catch (Exception exp){
-            Log.e("goToHomePage", exp.getMessage());
+            Log.e("goToHomePage()", exp.getMessage());
         }
     }
 
@@ -134,9 +135,6 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
      */
     private void firebaseAuthWithGoogle(GoogleSignInAccount googleSignInAccount) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + googleSignInAccount.getId());
-
-        //CustomFirebaseInstanceIdService instanceIdService = new CustomFirebaseInstanceIdService();
-        //instanceIdService.onTokenRefresh();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
 
