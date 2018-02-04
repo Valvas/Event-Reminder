@@ -55,12 +55,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
                 signOut();
             }
         }
-
-        Log.i("TEST", FirebaseInstanceId.getInstance().getToken());
-
         firebaseAuth = FirebaseAuth.getInstance();
-
-        Log.i("TEST", FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override

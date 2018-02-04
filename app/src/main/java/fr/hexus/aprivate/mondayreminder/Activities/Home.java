@@ -23,18 +23,22 @@ public class Home extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        try {
-            new APIUser().sendNotificationToken(this,
-                    GlobalVariables.CurrentAccount.getIdentifier(),
-                    FirebaseInstanceId.getInstance().getToken());
+        boolean comesFromMenu = getIntent().getBooleanExtra("comesFromMenu", false);
 
-            Log.d("onCreate() Home",
-                    "Account: " + GlobalVariables.CurrentAccount.getIdentifier() +
-                    " | Token: " + GlobalVariables.CurrentAccount.getToken() +
-                    " | Firebase Token: " + FirebaseInstanceId.getInstance().getToken());
+        if(!comesFromMenu){
+            try {
+                new APIUser().sendNotificationToken(this,
+                        GlobalVariables.CurrentAccount.getIdentifier(),
+                        FirebaseInstanceId.getInstance().getToken());
 
-        } catch (Exception e) {
-            Log.e("onCreate() Home", e.getMessage());
+                Log.d("onCreate() Home",
+                        "Account: " + GlobalVariables.CurrentAccount.getIdentifier() +
+                                " | Token: " + GlobalVariables.CurrentAccount.getToken() +
+                                " | Firebase Token: " + FirebaseInstanceId.getInstance().getToken());
+
+            } catch (Exception e) {
+                Log.e("onCreate() Home", e.getMessage());
+            }
         }
 
         TextView welcomeMessage = findViewById(R.id.welcomeMessage);

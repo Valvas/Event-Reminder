@@ -60,6 +60,7 @@ public class Menu extends Activity
         Intent intent = new Intent(this, Home.class);
 
         intent.putExtra(getResources().getString(R.string.ACCOUNT), getIntent().getSerializableExtra(getResources().getString(R.string.ACCOUNT)));
+        intent.putExtra("comesFromMenu", true);
 
         startActivity(intent);
     }
