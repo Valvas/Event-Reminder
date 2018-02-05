@@ -109,7 +109,7 @@ public class Event implements Serializable
     }
 
     public String getCycleDetails(){
-        if(this.isPonctual)
+        if(!this.isPonctual)
             return "Répétition : " + this.cycle.toString();
 
         return "Répétitif : Non";

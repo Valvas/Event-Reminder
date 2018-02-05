@@ -44,6 +44,6 @@ public class EventCycle implements Serializable{
 
     @Override
     public String toString() {
-        return year + " year(s) " + month + " month(s) " + day + " day(s) " + hour + " hour(s) " + minutes + " minute(s)";
+        return "\nAnnées: " + year + "\nMois: " + month + "\nJours: " + day + "\nHeures: " + hour + "\nMinutes: " + minutes;
     }
 }
