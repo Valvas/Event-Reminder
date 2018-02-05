@@ -29,4 +29,18 @@ public class LiteAccount implements Serializable{
     public String getIdentifier() {
         return identifier;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+
+        ret.append(this.firstname);
+
+        if(!lastName.equalsIgnoreCase(""))
+            ret.append(" " + this.lastName);
+
+        ret.append(" - " + this.identifier);
+
+        return ret.toString();
+    }
 }

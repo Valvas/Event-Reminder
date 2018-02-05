@@ -3,11 +3,15 @@ package fr.hexus.aprivate.mondayreminder.API.APIRequests;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.google.common.primitives.Ints;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +23,7 @@ import fr.hexus.aprivate.mondayreminder.API.APICallback;
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.ParticipantAdapter;
 import fr.hexus.aprivate.mondayreminder.Activities.EventDetails;
+import fr.hexus.aprivate.mondayreminder.Activities.EventForm;
 import fr.hexus.aprivate.mondayreminder.Activities.Participants;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
 import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
@@ -146,11 +151,10 @@ public class APIParticipations extends APIRequester {
                     try {
                         List<Participation> participantsList = new ArrayList<>();
                         if(result.getBoolean("result")){
-                            JSONObject participants = result.getJSONObject("participants");
-                            Iterator<?> keys = participants.keys();
+                            JSONArray participants = result.getJSONArray("participants");
 
-                            while(keys.hasNext()){
-                                JSONObject participant = participants.getJSONObject((String)keys.next());
+                            for(int i = 0; i < participants.length(); i++){
+                                JSONObject participant = participants.getJSONObject(i);
 
                                 Event event = APIEvents.GetEventFromCache(participant.getInt("id"));
 
@@ -214,16 +218,39 @@ public class APIParticipations extends APIRequester {
         }
     }
 
-    public void GetParticipation(final Context context, final String participantID) throws JSONException {
-        JSONObject content = new JSONObject();
+    public void GetFriendsToInvite(final Context context, final int eventId, final Spinner spinnerFriends) {
+        try {
+            JSONObject content = new JSONObject();
 
-        content.put("email", participantID);
+            content.put("event", eventId);
 
-        try{
-            this.readFromUrl(this.route + "get-my-participation-status-for-all-events", content, Request.Method.PUT, context, new APICallback() {
+            this.readFromUrl(this.route + "get-friends-to-invite", content, Request.Method.POST, context, new APICallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     // Handle response from server
+                    try {
+                        ArrayList<LiteAccount> arrayAccount = new ArrayList<>();
+                        if(result.getBoolean("result")){
+                            JSONArray friends = result.getJSONArray("friends");
+
+                            for(int i = 0; i < friends.length(); i++){
+                                JSONObject friend = friends.getJSONObject(i);
+
+                                String firstName = friend.getString("firstname");
+                                String lastName = friend.getString("lastname");
+                                String email = friend.getString("email");
+
+                                LiteAccount account = new LiteAccount(lastName, firstName, email);
+                                arrayAccount.add(account);
+                            }
+
+                            ArrayAdapter<LiteAccount> adapterFriends = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, arrayAccount);
+                            adapterFriends.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinnerFriends.setAdapter(adapterFriends);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -231,8 +258,9 @@ public class APIParticipations extends APIRequester {
                     // Handle error
                 }
             });
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception exp){
+
         }
+
     }
 }

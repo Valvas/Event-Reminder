@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIParticipations;
 import fr.hexus.aprivate.mondayreminder.ApiQueries;
 import fr.hexus.aprivate.mondayreminder.Contracts.Event;
+import fr.hexus.aprivate.mondayreminder.Contracts.LiteAccount;
 import fr.hexus.aprivate.mondayreminder.Contracts.Participation;
 import fr.hexus.aprivate.mondayreminder.Activities.CustomAdapter.ParticipantAdapter;
 import fr.hexus.aprivate.mondayreminder.GlobalVariables;
@@ -76,39 +78,33 @@ public class Participants extends ListActivity
 
     private void setActionAddParticipants(){
         Button addParticipants = findViewById(R.id.addParticipant);
-        View layout = getLayoutInflater().inflate(R.layout.activity_participants_view, null);
+        Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
 
-        AlertDialog.Builder addParticipantDialog = new AlertDialog.Builder(this);
-        addParticipantDialog.setView(layout);
-        addParticipantDialog.setTitle("Ajouter participant");
-        addParticipantDialog.setMessage("Email du participant :");
+        AlertDialog.Builder addParticipantDialogBuilder = new AlertDialog.Builder(this);
+        addParticipantDialogBuilder.setTitle("Ajouter participant");
+        addParticipantDialogBuilder.setMessage("Email du participant :");
 
-        final EditText input = new EditText(this);
+        final Spinner input = new Spinner(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
-        addParticipantDialog.setView(input);
+        addParticipantDialogBuilder.setView(input);
 
-        addParticipantDialog.setPositiveButton("Valider", (dialog, which) -> {
-            String email = input.getText().toString();
-            if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                Event event = (Event) getIntent().getSerializableExtra(getResources().getString(R.string.EVENT));
-                new APIParticipations().AddParticipant(Participants.this, email, event.getId(), dialog);
-            } else {
-                Toast.makeText(Participants.this, "L'adresse n'est pas valide.", Toast.LENGTH_SHORT).show();
-            }
+
+
+        addParticipantDialogBuilder.setPositiveButton("Valider", (dialog, which) -> {
+            LiteAccount selectedFriend = (LiteAccount)input.getSelectedItem();
+            new APIParticipations().AddParticipant(Participants.this, selectedFriend.getIdentifier(), event.getId(), dialog);
         });
 
-        addParticipantDialog.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
+        addParticipantDialogBuilder.setNegativeButton("NO", (dialog, which) -> dialog.dismiss());
 
-
+        AlertDialog addParticipantDialog = addParticipantDialogBuilder.create();
 
         addParticipants.setOnClickListener(v -> {
-            AlertDialog dialog = addParticipantDialog.show();
-
-            if(dialog.isShowing())
-                dialog.dismiss();
+            new APIParticipations().GetFriendsToInvite(Participants.this, event.getId(), input);
+            addParticipantDialog.show();
         });
     }
 }
