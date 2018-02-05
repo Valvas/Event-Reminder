@@ -15,16 +15,24 @@
       },
       "oauth_client": [
         {
-          "client_id": "661039461286-26r90b2n674q16g5ed8uk44q4mu97au1.apps.googleusercontent.com",
+          "client_id": "661039461286-nu3o8c2htdvoufrbiu74rlbp6gdls4o5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "661039461286-joaa8i5u2tj6rofck9l7c14aufrpev7d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "fr.hexus.aprivate.mondayreminder",
-            "certificate_hash": "3fbe1ffcc1b9ff38fd7502703821774a94cd9589"
+            "certificate_hash": "5bd6d56105c042eb4dc90222e1d5af7cce9c27eb"
           }
         },
         {
-          "client_id": "661039461286-craojoo9qgukst711gbvffvertu91i1k.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "661039461286-cjk1lb63e8rlm29emi676o4eu1gb6n8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.hexus.aprivate.mondayreminder",
+            "certificate_hash": "7bac783761e080e7bbb12d68be9a77bb9acc3ef4"
+          }
         }
       ],
       "api_key": [
@@ -40,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "661039461286-craojoo9qgukst711gbvffvertu91i1k.apps.googleusercontent.com",
+              "client_id": "661039461286-nu3o8c2htdvoufrbiu74rlbp6gdls4o5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

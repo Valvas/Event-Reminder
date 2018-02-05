@@ -43,7 +43,7 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
 
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("661039461286-nkjlguhhis39cd75su9uta7rusl4fapg.apps.googleusercontent.com")
+                .requestIdToken("661039461286-nu3o8c2htdvoufrbiu74rlbp6gdls4o5.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
