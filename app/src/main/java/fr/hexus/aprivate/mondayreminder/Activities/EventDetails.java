@@ -20,11 +20,6 @@ import fr.hexus.aprivate.mondayreminder.R;
 public class EventDetails extends Activity
 {
     private Event currentEvent = null;
-    private TextView eventName = findViewById(R.id.eventName);
-    private TextView eventDate = findViewById(R.id.eventDate);
-    private TextView eventCycle = findViewById(R.id.eventCycle);
-    private TextView eventCreator = findViewById(R.id.eventCreator);
-    private TextView eventDescription = findViewById(R.id.eventDescription);
 
     @Override
     @SuppressWarnings("deprecation")
@@ -76,6 +71,13 @@ public class EventDetails extends Activity
     }
 
     private void setTexts(Event event){
+
+        TextView eventName = findViewById(R.id.eventName);
+        TextView eventDate = findViewById(R.id.eventDate);
+        TextView eventCycle = findViewById(R.id.eventCycle);
+        TextView eventCreator = findViewById(R.id.eventCreator);
+        TextView eventDescription = findViewById(R.id.eventDescription);
+
         eventName.setText(event.getName());
         eventDate.setText(event.getSimpleDate());
         eventCycle.setText(event.getCycleDetails());
@@ -116,6 +118,9 @@ public class EventDetails extends Activity
     }
 
     public void updateEvent(View view, Event eventToUpdate) throws JSONException {
+
+        TextView eventName = findViewById(R.id.eventName);
+        TextView eventDescription = findViewById(R.id.eventDescription);
         eventName.setVisibility(View.INVISIBLE);
         eventDescription.setVisibility(View.INVISIBLE);
 
