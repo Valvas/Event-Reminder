@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "661039461286-vq1b0p3mag45u1j9usalfkrhchi7mh4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.hexus.aprivate.mondayreminder",
+            "certificate_hash": "5c78f47fc7bb07ad6faaeaf243d9b442461f7933"
+          }
+        },
+        {
           "client_id": "661039461286-nu3o8c2htdvoufrbiu74rlbp6gdls4o5.apps.googleusercontent.com",
           "client_type": 3
         },
