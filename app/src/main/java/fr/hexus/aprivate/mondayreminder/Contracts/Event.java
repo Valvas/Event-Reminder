@@ -35,10 +35,12 @@ public class Event implements Serializable
      * If time cycle is activated
      */
     private boolean isPonctual;
+
+    private int myParticipationStatus;
     //endregion
 
     //region Constructor
-    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean isPonctual, int id)
+    public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean isPonctual, int id, int myParticipationStatus)
     {
         this.id = id;
         this.date = date;
@@ -47,6 +49,7 @@ public class Event implements Serializable
         this.isPonctual = isPonctual;
         this.creator = creator;
         this.description = description;
+        this.myParticipationStatus = myParticipationStatus;
     }
 
     public Event(String name, LiteAccount creator, String description, DateTime date, EventCycle cycle, boolean isPonctual)
@@ -122,6 +125,8 @@ public class Event implements Serializable
         return true;
     }
     //endregion
+
+    public int getMyParticipationStatus() { return this.myParticipationStatus; }
     //endregion
 
     //region Methods

@@ -82,13 +82,14 @@ public class APIEvents extends APIRequester {
                                 int cycleDays = event.getInt("days");
                                 int cycleMonths = event.getInt("months");
                                 int cycleYears = event.getInt("years");
+                                int myParticipationStatus = event.getInt("status");
                                 DateTime date = new DateTime(event.getLong("date"));
                                 EventCycle cycle = new EventCycle(0, cycleHours, cycleDays, cycleMonths, cycleYears);
 
                                 JSONObject jsonAccount = event.getJSONObject("account");
                                 LiteAccount account = new LiteAccount(jsonAccount.getString("lastname"), jsonAccount.getString("firstname"), jsonAccount.getString("email"));
 
-                                Event eventForList = new Event(name, account, description, date, cycle, isPonctual, id);
+                                Event eventForList = new Event(name, account, description, date, cycle, isPonctual, id, myParticipationStatus);
                                 eventList.add(eventForList);
                             }
                             eventsCache = eventList;
