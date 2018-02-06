@@ -1,5 +1,6 @@
 package fr.hexus.aprivate.mondayreminder.Activities;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.util.Log;
 import fr.hexus.aprivate.mondayreminder.API.APIRequester;
 import fr.hexus.aprivate.mondayreminder.API.APIRequests.APIUser;
 import fr.hexus.aprivate.mondayreminder.API.Firebase.CustomFirebaseInstanceIdService;
+import fr.hexus.aprivate.mondayreminder.NotificationService;
 import fr.hexus.aprivate.mondayreminder.R;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,6 +39,8 @@ public class Logon extends FragmentActivity implements View.OnClickListener {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon_page);
+
+        startService(new Intent(this, NotificationService.class));
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
