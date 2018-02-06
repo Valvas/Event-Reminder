@@ -68,7 +68,8 @@ public class FriendAdapter extends ArrayAdapter<Friend>
 
     private void deleteFriend(String ownerEmail, String friendEmail){
         try {
-            new APIFriends().delete(getContext(), ownerEmail, friendEmail);
+            boolean isFromInvitations = false;
+            new APIFriends().delete(getContext(), ownerEmail, friendEmail, isFromInvitations);
         } catch (Exception ex){
             Log.e("deleteFriend", "Error while deleting a friend:\n"
                     + ex.getMessage());

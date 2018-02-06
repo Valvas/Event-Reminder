@@ -69,7 +69,7 @@ public class Friends extends ListActivity
             EditText receiverEmailInput = findViewById(R.id.friendEmailInput);
             String receiverEmail = String.valueOf(receiverEmailInput.getText());
 
-            new APIFriends().delete(this, requesterEmail, receiverEmail);
+            new APIFriends().delete(this, requesterEmail, receiverEmail, false);
             fillFriendsList();
         } catch (Exception ex){
             Log.e("deleteFriend", "Error while deleting a friend.");

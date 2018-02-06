@@ -75,7 +75,7 @@ public class APIFriends extends APIRequester {
     }
 
     public void delete(final Context context, final String requesterEmail,
-                       final String receiverEmail) throws JSONException {
+                       final String receiverEmail, final boolean isFromInvitations) throws JSONException {
         JSONObject content = new JSONObject();
 
         content.put("ownerEmail", requesterEmail);
@@ -90,7 +90,11 @@ public class APIFriends extends APIRequester {
                         if(result.getBoolean("result")){
                             Toast.makeText(context, "Ami supprimé", Toast.LENGTH_SHORT).show();
 
-                            ((Friends)context).fillFriendsList();
+                            if(isFromInvitations){
+                                ((Invitations)context).fillInvitationsList();
+                            } else {
+                                ((Friends)context).fillFriendsList();
+                            }
                         }
                     } catch (JSONException jsonEx) {
                         Log.e("onSuccessResponse:Failure", jsonEx.getMessage());
